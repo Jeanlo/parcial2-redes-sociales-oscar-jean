@@ -40,4 +40,24 @@ Aquí poner el modelo de datos.
 
 ## Tareas requeridas
 
-Todavía no hecho.
+- Hacer el diagrama de clases.
+- Hacer el modelo de datos
+- Configurar la base de datos
+- Crear usuario administrador
+- Poder registrar usuarios
+- Poder subir privilegios de usuario
+- Formulario para registrar usuarios
+- Muro de usuario
+- Capacidad para postear texto
+- Capacidad para etiquetar usuarios en un post.
+- Capacidad de notificarle al usuario con por una etiquetación.
+- Capacidad de poner albumes de imágenes.
+- Capacidad de registrar una imagen en un album.
+- Notificarle al usuario la etiquetación de una imagen
+- Capacidad para comentar una imagen en un album.
+- Que cada usuario tenga un timeline con todo lo que han hecho sus amigos.
+- Capacidad para comentar en un post.
+- Capacidad para reaccionar en un post.
+- Capacidad para agregar amigos.
+- Capacidad para sugerir amigos.
+- Se debe validar los formularios (tanto en HTML como en JavaScript y JavaScript) por si se deja vacío un campo o algo de esa naturaleza.
