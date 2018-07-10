@@ -11,10 +11,13 @@ public class Album implements Serializable {
     @GeneratedValue
     private long id;
 
+    public Album() {
+    }
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Imagen> imagenes;
 
     private String desripcion;

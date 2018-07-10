@@ -27,6 +27,9 @@ public class Usuario implements Serializable {
         this.sesion = sesion;
     }
 
+    public Usuario() {
+    }
+
     public Long getId() {
         return id;
     }

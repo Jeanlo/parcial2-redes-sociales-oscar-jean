@@ -17,6 +17,9 @@ public class Reaccion implements Serializable {
         TipoReaccionElegida = tipoReaccionElegida;
     }
 
+    public Reaccion() {
+    }
+
     public long getId() {
         return id;
     }

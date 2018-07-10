@@ -14,7 +14,7 @@ public class Comentario implements Serializable  {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Reaccion> reacciones;
 
     private Date Fecha;
@@ -24,6 +24,9 @@ public class Comentario implements Serializable  {
         this.usuario = usuario;
         this.reacciones = reacciones;
         Fecha = fecha;
+    }
+
+    public Comentario() {
     }
 
     public long getId() {

@@ -11,18 +11,20 @@ public class Post implements Serializable {
     @GeneratedValue
     private long id;
     private String texto;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Imagen imagen;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Comentario> comentarios;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Persona> personasEtiquetadas;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Reaccion> reacciones;
 
     private Date Fecha;
@@ -35,6 +37,9 @@ public class Post implements Serializable {
         this.personasEtiquetadas = personasEtiquetadas;
         this.reacciones = reacciones;
         Fecha = fecha;
+    }
+
+    public Post() {
     }
 
     public long getId() {
