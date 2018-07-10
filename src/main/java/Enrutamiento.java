@@ -1,6 +1,8 @@
 import Modelos.Imagen;
+import Modelos.Persona;
 import Modelos.Post;
 import Modelos.Usuario;
+import Servicios.ServicioPersona;
 import Servicios.ServicioPost;
 import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
@@ -124,6 +126,33 @@ public class Enrutamiento {
             ServicioPost.getInstancia().crear(post);
 
             res.redirect("/");
+            return null;
+        });
+
+        post("/registrar", (req, res) -> {
+           String nombre = req.queryParams("nombre");
+           String apellido = req.queryParams("apellido");
+           String username = req.queryParams("usuario");
+           String contrasena = req.queryParams("contrasena");
+           String sexo = "";
+           String nacionalidad = req.queryParams("nacionalidad");
+
+           if(req.queryParams("sexoM") != null){
+               sexo = "M";
+           }
+            if(req.queryParams("sexoF") != null){
+                sexo = "F";
+            }
+
+            long id = ServicioUsuario.getInstancia().listar().get(ServicioUsuario.getInstancia().listar().size() - 1).getId() + 1;
+
+            Usuario userNuevo = new Usuario(id, username, contrasena, false, null);
+            ServicioUsuario.getInstancia().crear(userNuevo);
+            Persona personaNueva = new Persona(usuario, nombre, apellido, sexo, nacionalidad);
+            ServicioPersona.getInstancia().crear(personaNueva);
+
+            res.redirect("/");
+
             return null;
         });
 
