@@ -53,9 +53,11 @@ public class Enrutamiento {
            }
 
            if (req.session().attribute("sesionUsuario") == null) {
-               if(!usuario.isAdministrator()) {
-                   res.redirect("/");
-               }
+               res.redirect("/login");
+           }
+
+           if(!usuario.isAdministrator()) {
+               res.redirect("/");
            }
        });
 
