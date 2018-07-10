@@ -9,12 +9,34 @@ public class Reaccion implements Serializable {
     @GeneratedValue
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private TipoReaccion TipoReaccionElegida;
+    private String TipoReaccionElegida;
 
-    public Reaccion(TipoReaccion tipoReaccionElegida) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Post post;
+
+    public Reaccion(String tipoReaccionElegida, Usuario usuario, Post post) {
         TipoReaccionElegida = tipoReaccionElegida;
+        this.usuario = usuario;
+        this.post = post;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public Reaccion() {
@@ -28,11 +50,11 @@ public class Reaccion implements Serializable {
         this.id = id;
     }
 
-    public TipoReaccion getTipoReaccionElegida() {
+    public String getTipoReaccionElegida() {
         return TipoReaccionElegida;
     }
 
-    public void setTipoReaccionElegida(TipoReaccion tipoReaccionElegida) {
+    public void setTipoReaccionElegida(String tipoReaccionElegida) {
         TipoReaccionElegida = tipoReaccionElegida;
     }
 }
