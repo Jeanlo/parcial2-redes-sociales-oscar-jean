@@ -8,7 +8,7 @@
                         Registrarse
                     </h5>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="/registrar" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-6">
                                     <label for="nombre">Nombre</label>
@@ -46,13 +46,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="sexo">Sexo</label>
-                                <select class="custom-select">
-                                    <option selected>Elige...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Femenino</option>
-                                    <option value="N">io k c</option>
-                                </select>
+                                <label for="sexoM">Masculino </label>
+                                <br>
+                                <input class="form-check-input" type="radio" name="sexoM">
+                            </div>
+                            <div class="form-group">
+                                <label for="sexoM">Femenino</label>
+                                <br>
+                                <input class="form-check-input" type="radio" name="sexoF">
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-6">
