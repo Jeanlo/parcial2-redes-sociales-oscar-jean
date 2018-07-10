@@ -1,7 +1,6 @@
 package Servicios;
 
 import Modelos.Post;
-import Modelos.Usuario;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

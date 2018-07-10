@@ -1,9 +1,10 @@
-import Modelos.Imagen;
 import Modelos.Persona;
 import Modelos.Post;
+import Modelos.Reaccion;
 import Modelos.Usuario;
 import Servicios.ServicioPersona;
 import Servicios.ServicioPost;
+import Servicios.ServicioReaccion;
 import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -13,7 +14,8 @@ import spark.Session;
 
 import java.io.StringWriter;
 import java.sql.Date;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -42,24 +44,24 @@ public class Enrutamiento {
             }
         });
 
-       before("/subirPrivilegios", (req, res) -> {
-           if (req.cookie("sesionSemanal") != null) {
-               Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
+        before("/subirPrivilegios", (req, res) -> {
+            if (req.cookie("sesionSemanal") != null) {
+                Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
 
-               if (usuarioRestaurado != null) {
-                   req.session(true);
-                   req.session().attribute("sesionUsuario", usuarioRestaurado);
-               }
-           }
+                if (usuarioRestaurado != null) {
+                    req.session(true);
+                    req.session().attribute("sesionUsuario", usuarioRestaurado);
+                }
+            }
 
-           if (req.session().attribute("sesionUsuario") == null) {
-               res.redirect("/login");
-           }
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/login");
+            }
 
-           if(!usuario.isAdministrator()) {
-               res.redirect("/");
-           }
-       });
+            if (!usuario.isAdministrator()) {
+                res.redirect("/");
+            }
+        });
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
@@ -149,17 +151,17 @@ public class Enrutamiento {
         });
 
         post("/registrar", (req, res) -> {
-           String nombre = req.queryParams("nombre");
-           String apellido = req.queryParams("apellido");
-           String username = req.queryParams("usuario");
-           String contrasena = req.queryParams("contrasena");
-           String sexo = "";
-           String nacionalidad = req.queryParams("nacionalidad");
+            String nombre = req.queryParams("nombre");
+            String apellido = req.queryParams("apellido");
+            String username = req.queryParams("usuario");
+            String contrasena = req.queryParams("contrasena");
+            String sexo = "";
+            String nacionalidad = req.queryParams("nacionalidad");
 
-           if(req.queryParams("sexoM") != null){
-               sexo = "M";
-           }
-            if(req.queryParams("sexoF") != null){
+            if (req.queryParams("sexoM") != null) {
+                sexo = "M";
+            }
+            if (req.queryParams("sexoF") != null) {
                 sexo = "F";
             }
 
@@ -197,6 +199,33 @@ public class Enrutamiento {
             res.redirect("/subirPrivilegios");
 
             return null;
+        });
+
+        post("/reaccionar", (req, res) -> {
+            Long id = Long.parseLong(req.queryParams("id"));
+            String tipo = req.queryParams("tipo");
+
+            Post post = ServicioPost.getInstancia().encontrar(id);
+
+            Reaccion reaccion = (Reaccion) ServicioReaccion.getInstancia().encontrarReaccionUsuarioPost(id, usuario.getId());
+
+            if (reaccion == null) {
+                ServicioReaccion.getInstancia().crear(
+                        new Reaccion(
+                                tipo,
+                                usuario,
+                                post
+                        )
+                );
+            } else {
+                reaccion.setTipoReaccionElegida(tipo);
+                ServicioReaccion.getInstancia().editar(reaccion);
+            }
+
+
+            ServicioPost.getInstancia().editar(post);
+
+            return ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, tipo);
         });
     }
 
