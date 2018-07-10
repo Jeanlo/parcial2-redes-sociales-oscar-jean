@@ -1,4 +1,4 @@
-<#macro pagina logueado=false>
+<#macro pagina logueado=false usuario="">
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,6 +59,12 @@
                                     <a class="nav-link" href="/amigos">
                                         <i class="fas fa-users"></i> Amigos</a>
                                 </li>
+                                <#if usuario.administrator>
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="/subirPrivilegios">
+                                             <i class="fas fa-unlock-alt"></i> Subir privilegios </a>
+                                     </li>
+                                </#if>
                             </ul>
                             <button class="btn btn-outline-warning my-2 my-sm-0" data-toggle="modal"
                                     data-target="#exampleModal" type="button">
@@ -86,7 +92,8 @@
                                             <i class="fas fa-lock"></i>
                                         </div>
                                     </div>
-                                    <input type="password" class="form-control" name="contrasena" placeholder="Contraseña">
+                                    <input type="password" class="form-control" name="contrasena"
+                                           placeholder="Contraseña">
                                 </div>
                                 <input class="form-check-input" type="radio" name="guardarSesion">
                                 <label class="form-check-label text-white mr-2" for="guardarSesion">

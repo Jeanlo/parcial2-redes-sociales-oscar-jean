@@ -42,12 +42,31 @@ public class Enrutamiento {
             }
         });
 
+       before("/subirPrivilegios", (req, res) -> {
+           if (req.cookie("sesionSemanal") != null) {
+               Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
+
+               if (usuarioRestaurado != null) {
+                   req.session(true);
+                   req.session().attribute("sesionUsuario", usuarioRestaurado);
+               }
+           }
+
+           if (req.session().attribute("sesionUsuario") == null) {
+               res.redirect("/login");
+           }
+
+           if(!usuario.isAdministrator()) {
+               res.redirect("/");
+           }
+       });
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
 
+            atributos.put("usuario", usuario);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("listaPost", ServicioPost.getInstancia().buscarPosts());
             template.process(atributos, writer);
@@ -156,6 +175,29 @@ public class Enrutamiento {
             return null;
         });
 
+        get("/subirPrivilegios", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atributos = new HashMap<>();
+            Template template = configuration.getTemplate("plantillas/subir-privilegios.ftl");
+
+            atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("usuarios", ServicioUsuario.getInstancia().listar());
+            atributos.put("usuario", usuario);
+            template.process(atributos, writer);
+
+            return writer;
+        });
+
+        post("/hacerAdmin/:usuario", (req, res) -> {
+            String username = req.params("usuario");
+            Usuario usuarioEditado = (Usuario) ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(username);
+            usuarioEditado.setAdministrator(true);
+            ServicioUsuario.getInstancia().editar(usuarioEditado);
+
+            res.redirect("/subirPrivilegios");
+
+            return null;
+        });
     }
 
 
