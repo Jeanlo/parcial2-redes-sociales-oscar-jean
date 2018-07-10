@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-12 p-0">
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                        <a class="navbar-brand" href="index.html">bacano</a>
+                        <a class="navbar-brand" href="/">bacano</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -50,13 +50,13 @@
                         <#if logueado>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="perfil.html">
+                                    <a class="nav-link" href="/perfil">
                                         <i class="fas fa-user"></i> Perfil
                                         <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="/amigos">
                                         <i class="fas fa-users"></i> Amigos</a>
                                 </li>
                             </ul>
@@ -65,9 +65,9 @@
                                 <i class="fas fa-feather-alt"></i> Bacanear
                             </button>
                             &nbsp;&nbsp;
-                            <button class="btn btn-outline-danger text-white my-2 my-sm-0" type="submit">
+                            <a href="/salir" class="btn btn-outline-danger text-white my-2 my-sm-0" type="submit">
                                 <i class="fas fa-sign-out-alt"></i> Salir
-                            </button>
+                            </a>
                         <#else>
                             <ul class="navbar-nav mr-auto">
                             </ul>

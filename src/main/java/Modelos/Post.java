@@ -10,6 +10,8 @@ public class Post implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(columnDefinition = "TEXT")
     private String texto;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
