@@ -10,7 +10,10 @@ public class Persona implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Usuario usuario;
+
     private String nombre;
     private String apellido;
     private Date fechaNacimiento;
@@ -24,19 +27,19 @@ public class Persona implements Serializable {
 
     private Boolean tienePareja;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Persona> amigos;
 
     private String educación;
     private String profesion;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Post> postReaccionados;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Post> postComentados;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Album> albumes;
 
     private Date fechaRegistro;
@@ -48,6 +51,9 @@ public class Persona implements Serializable {
         this.apellido = apellido;
         this.sexo = sexo;
         this.nacionalidad = nacionalidad;
+    }
+
+    public Persona() {
     }
 
     public long getId() {
