@@ -11,35 +11,37 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="contenido">Contenido</label>
-                    <textarea name="" class="form-control rounded-0"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="imagen">Agregar foto</label>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="imagen" required>
-                        <label class="custom-file-label" for="validatedCustomFile">Subir foto...</label>
+                <form method="POST" action="/bacanear">
+                    <div class="form-group">
+                        <label for="contenido">Contenido</label>
+                        <textarea name="texto" class="form-control rounded-0"></textarea>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="etiquetar">Etiquetar</label>
-                    <select multiple class="form-control rounded-0">
-                        <option>Oscar Núñez</option>
-                        <option>Carlos Camacho</option>
-                        <option>Carlos Pérez</option>
-                        <option>Nelson Duran</option>
-                        <option>César Peña</option>
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">
-                    <i class="fas fa-ban"></i> Cancelar
-                </button>
-                <button class="btn btn-warning my-2 my-sm-0" type="submit">
-                    <i class="fas fa-feather-alt"></i> Bacanear
-                </button>
+                    <div class="form-group">
+                        <label for="imagen">Agregar foto</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="imagen">
+                            <label class="custom-file-label" for="validatedCustomFile">Subir foto...</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="etiquetar">Etiquetar</label>
+                        <select multiple class="form-control rounded-0" name="etiquetar">
+                            <option>Oscar Núñez</option>
+                            <option>Carlos Camacho</option>
+                            <option>Carlos Pérez</option>
+                            <option>Nelson Duran</option>
+                            <option>César Peña</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">
+                            <i class="fas fa-ban"></i> Cancelar
+                        </button>
+                        <button class="btn btn-warning my-2 my-sm-0" type="submit">
+                            <i class="fas fa-feather-alt"></i> Bacanear
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

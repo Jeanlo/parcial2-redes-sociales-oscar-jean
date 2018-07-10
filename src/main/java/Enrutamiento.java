@@ -1,4 +1,7 @@
+import Modelos.Imagen;
+import Modelos.Post;
 import Modelos.Usuario;
+import Servicios.ServicioPost;
 import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -7,6 +10,7 @@ import org.jasypt.util.text.StrongTextEncryptor;
 import spark.Session;
 
 import java.io.StringWriter;
+import java.sql.Date;
 import java.util.*;
 
 import static spark.Spark.*;
@@ -43,9 +47,22 @@ public class Enrutamiento {
             Template template = configuration.getTemplate("plantillas/index.ftl");
 
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("listaPost", ServicioPost.getInstancia().buscarPosts());
             template.process(atributos, writer);
 
             return writer;
+        });
+
+        get("/salir", (req, res) ->
+        {
+            Session sesion = req.session(true);
+            sesion.invalidate();
+
+            res.removeCookie("sesionSemanal");
+
+            res.redirect("/");
+
+            return null;
         });
 
         get("/login", (req, res) -> {
@@ -93,7 +110,25 @@ public class Enrutamiento {
 
             return null;
         });
+
+        post("/bacanear", (req, res) -> {
+            java.sql.Date tiempoAhora = new Date(System.currentTimeMillis());
+
+            String texto = req.queryParams("texto");
+            //String imagen = req.queryParams("imagen");
+            //String etiquetar = req.queryParams("etiquetar");
+
+            //Imagen imagenAux = new Imagen(imagen, " ", null, null);
+
+            Post post = new Post(texto, null, usuario, null, null, null, tiempoAhora);
+            ServicioPost.getInstancia().crear(post);
+
+            res.redirect("/");
+            return null;
+        });
+
     }
+
 
     private static Usuario restaurarSesion(String cookie) {
         StrongTextEncryptor encriptador = new StrongTextEncryptor();

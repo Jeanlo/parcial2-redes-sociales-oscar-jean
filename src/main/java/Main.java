@@ -15,15 +15,15 @@ public class Main {
         // Iniciando el servicio de Base de datos por medio de Hibernate y H2.
         try {
             ServicioBootstrap.iniciarBaseDatos();
+            // Insertando el usuario por defecto (administrador).
+            if (ServicioUsuario.getInstancia().encontrar(new Long(1)) == null) {
+                ServicioUsuario.getInstancia().crear(new Usuario(new Long(1), "admin", "1234", true, null));
+            }
+            Enrutamiento.crearRutas();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Insertando el usuario por defecto (administrador).
-        if (ServicioUsuario.getInstancia().encontrar(new Long(1)) == null) {
-            ServicioUsuario.getInstancia().crear(new Usuario(new Long(1), "admin", "1234", true, null));
-        }
 
-        Enrutamiento.crearRutas();
     }
 }
