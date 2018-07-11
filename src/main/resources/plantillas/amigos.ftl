@@ -12,18 +12,20 @@
                     </div>
                 </#list>
                 <#list usuariosNoAmigos as usua>
-                    <div class="bg-dark text-white rounded-0 col-3 mx-auto p-0 mb-2">
-                        <div class="card-header"><strong>Usuario: </strong>
-                            <span class="text-warning">${usua.usuario}</span>
-                        </div>
-                        <div class="card-body">
-                            <form action="/agregarAmigo/${usua.usuario}" method="POST">
-                                <button type="submit" class="btn btn-outline-warning">
-                                    <i class="fas fa-user-friends"></i> Agregar a amigo
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                    <#if usua.usuario != usuario.usuario>
+                         <div class="bg-dark text-white rounded-0 col-3 mx-auto p-0 mb-2">
+                             <div class="card-header"><strong>Usuario: </strong>
+                                 <span class="text-warning">${usua.usuario}</span>
+                             </div>
+                             <div class="card-body">
+                                 <form action="/agregarAmigo/${usua.usuario}" method="POST">
+                                     <button type="submit" class="btn btn-outline-warning">
+                                         <i class="fas fa-user-friends"></i> Agregar a amigo
+                                     </button>
+                                 </form>
+                             </div>
+                         </div>
+                    </#if>
                 </#list>
             </div>
         </div>
