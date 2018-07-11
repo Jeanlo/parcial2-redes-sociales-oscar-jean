@@ -2,6 +2,7 @@ package Modelos;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Usuario implements Serializable {
@@ -11,6 +12,9 @@ public class Usuario implements Serializable {
     private String contrasena;
     private boolean administrator;
     private String sesion;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<Usuario> amigos;
 
     public Usuario(String usuario, String contrasena, boolean administrator, String sesion) {
         this.usuario = usuario;
@@ -28,6 +32,14 @@ public class Usuario implements Serializable {
     }
 
     public Usuario() {
+    }
+
+    public List<Usuario> getAmigos() {
+        return amigos;
+    }
+
+    public void setAmigos(List<Usuario> amigos) {
+        this.amigos = amigos;
     }
 
     public Long getId() {

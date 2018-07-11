@@ -14,6 +14,7 @@ import spark.Session;
 
 import java.io.StringWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,21 @@ public class Enrutamiento {
         staticFiles.location("/publico");
 
         before("/", (req, res) -> {
+            if (req.cookie("sesionSemanal") != null) {
+                Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
+
+                if (usuarioRestaurado != null) {
+                    req.session(true);
+                    req.session().attribute("sesionUsuario", usuarioRestaurado);
+                }
+            }
+
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/login");
+            }
+        });
+
+        before("/amigos", (req, res) -> {
             if (req.cookie("sesionSemanal") != null) {
                 Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
 
@@ -249,6 +265,52 @@ public class Enrutamiento {
             }
 
             return stringCantidades;
+        });
+
+        get("/amigos", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atributos = new HashMap<>();
+            Template template = configuration.getTemplate("plantillas/amigos.ftl");
+
+            List<Usuario> usuarios = ServicioUsuario.getInstancia().listar();
+            List<Usuario> usuariosNoAmigos = new ArrayList<>();
+
+
+            for(Usuario usu: usuarios){
+                Boolean esAmigo = false;
+                for(Usuario amigo: usuario.getAmigos()){
+                    if(usu.getUsuario() == amigo.getUsuario() || usu.getUsuario() == usuario.getUsuario()) {
+                        esAmigo = true;
+                        break;
+                    }
+                }
+                if(esAmigo) {
+                    continue;
+                }
+                usuariosNoAmigos.add(usu);
+            }
+
+            atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("usuarios", usuarios);
+            atributos.put("usuariosNoAmigos", usuariosNoAmigos);
+            atributos.put("usuario", usuario);
+            template.process(atributos, writer);
+
+            return writer;
+        });
+
+        post("/agregarAmigo/:usuario", (req, res) -> {
+            String username = req.params("usuario");
+            Usuario usuarioAmigo = (Usuario) ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(username);
+            usuario.getAmigos().add(usuarioAmigo);
+            ServicioUsuario.getInstancia().editar(usuario);
+
+            //usuarioAmigo.getAmigos().add(usuario);
+            //ServicioUsuario.getInstancia().editar(usuarioAmigo);
+
+            res.redirect("/amigos");
+
+            return null;
         });
     }
 
