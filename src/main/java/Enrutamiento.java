@@ -181,15 +181,8 @@ public class Enrutamiento {
             String apellido = req.queryParams("apellido");
             String username = req.queryParams("usuario");
             String contrasena = req.queryParams("contrasena");
-            String sexo = "";
+            String sexo = req.queryParams("sexo");
             String nacionalidad = req.queryParams("nacionalidad");
-
-            if (req.queryParams("sexoM") != null) {
-                sexo = "M";
-            }
-            if (req.queryParams("sexoF") != null) {
-                sexo = "F";
-            }
 
             long id = ServicioUsuario.getInstancia().listar().get(ServicioUsuario.getInstancia().listar().size() - 1).getId() + 1;
 
