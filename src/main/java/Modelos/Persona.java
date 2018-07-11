@@ -27,9 +27,6 @@ public class Persona implements Serializable {
 
     private Boolean tienePareja;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Persona> amigos;
-
     private String educación;
     private String profesion;
 
@@ -94,10 +91,6 @@ public class Persona implements Serializable {
 
     public Boolean getTienePareja() {
         return tienePareja;
-    }
-
-    public List<Persona> getAmigos() {
-        return amigos;
     }
 
     public String getEducación() {
@@ -168,10 +161,6 @@ public class Persona implements Serializable {
         this.tienePareja = tienePareja;
     }
 
-    public void setAmigos(List<Persona> amigos) {
-        this.amigos = amigos;
-    }
-
     public void setEducación(String educación) {
         this.educación = educación;
     }
@@ -198,5 +187,10 @@ public class Persona implements Serializable {
 
     public void setSitioWeb(String sitioWeb) {
         this.sitioWeb = sitioWeb;
+    }
+
+    @Override
+    public String toString() {
+        return this.usuario.getUsuario();
     }
 }
