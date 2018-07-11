@@ -14,7 +14,7 @@
                 <form method="POST" action="/bacanear">
                     <div class="form-group">
                         <label for="contenido">Contenido</label>
-                        <textarea name="texto" class="form-control rounded-0"></textarea>
+                        <textarea name="texto" class="form-control rounded-0" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="imagen">Agregar foto</label>

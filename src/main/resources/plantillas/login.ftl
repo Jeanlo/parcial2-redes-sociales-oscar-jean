@@ -18,7 +18,8 @@
                                                 <i class="fas fa-id-card"></i>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre">
+                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                                               maxlength="30" required>
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
@@ -29,7 +30,8 @@
                                                 <i class="fas fa-id-card"></i>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" name="apellido" placeholder="Apellido">
+                                        <input type="text" class="form-control" name="apellido" placeholder="Apellido"
+                                               maxlength="30" required>
                                     </div>
                                 </div>
                             </div>
@@ -42,18 +44,18 @@
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="nacionalidad"
-                                           placeholder="Nacionalidad">
+                                           placeholder="Nacionalidad" maxlength="30" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="sexo">Sexo</label>
                                 <br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="sexo" value="M">
+                                    <input class="form-check-input" type="radio" name="sexo" value="M" required>
                                     <label class="form-check-label" for="sexo">Masculino</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="sexo" value="F">
+                                    <input class="form-check-input" type="radio" name="sexo" value="F" required>
                                     <label class="form-check-label" for="sexo">Femenino</label>
                                 </div>
                             </div>
@@ -66,7 +68,8 @@
                                                 <i class="fas fa-user"></i>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" name="usuario" placeholder="Usuario">
+                                        <input type="text" class="form-control" name="usuario" placeholder="Usuario"
+                                               maxlength="16" required>
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
@@ -78,7 +81,7 @@
                                             </div>
                                         </div>
                                         <input type="password" class="form-control" name="contrasena"
-                                               placeholder="Contraseña">
+                                               placeholder="Contraseña" maxlength="16" required>
                                     </div>
                                 </div>
                             </div>
