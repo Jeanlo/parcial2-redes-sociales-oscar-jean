@@ -235,7 +235,20 @@ public class Enrutamiento {
 
             ServicioPost.getInstancia().editar(post);
 
-            return ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, tipo);
+            int[] cantidades = new int[5];
+            cantidades[0] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, "me-gusta"));
+            cantidades[1] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, "me-encanta"));
+            cantidades[2] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, "meh"));
+            cantidades[3] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, "me-disgusta"));
+            cantidades[4] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionPost(id, "me-indigna"));
+
+            String stringCantidades = "";
+
+            for (int i = 0; i < 5; i++) {
+                stringCantidades += cantidades[i] + ",";
+            }
+
+            return stringCantidades;
         });
     }
 

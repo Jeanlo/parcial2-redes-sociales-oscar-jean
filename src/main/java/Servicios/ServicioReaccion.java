@@ -62,7 +62,7 @@ public class ServicioReaccion  extends ServicioBaseDatos<Reaccion> {
 
         try {
             Query query = em.createQuery(
-                    "from Reaccion reaccion where reaccion.post.id = :reaccion_postID and reaccion.TipoReaccionElegida = :reaccion_tipo"
+            "from Reaccion reaccion where reaccion.post.id = :reaccion_postID and reaccion.TipoReaccionElegida = :reaccion_tipo"
             );
 
             query.setParameter("reaccion_postID", postID);
