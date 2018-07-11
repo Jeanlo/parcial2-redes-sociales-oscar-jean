@@ -15,6 +15,7 @@ import spark.Session;
 import java.io.StringWriter;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -67,10 +68,19 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
+            List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
+
+            for (Post post : listaPost) {
+                post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
+                post.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-encanta"));
+                post.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "meh"));
+                post.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-disgusta"));
+                post.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-indigna"));
+            }
 
             atributos.put("usuario", usuario);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-            atributos.put("listaPost", ServicioPost.getInstancia().buscarPosts());
+            atributos.put("listaPost", listaPost);
             template.process(atributos, writer);
 
             return writer;
