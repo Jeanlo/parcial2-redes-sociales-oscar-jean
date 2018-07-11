@@ -31,6 +31,21 @@ public class Post implements Serializable {
 
     private Date Fecha;
 
+    @Transient
+    private List<Reaccion> meGusta;
+
+    @Transient
+    private List<Reaccion> meEncanta;
+
+    @Transient
+    private List<Reaccion> meh;
+
+    @Transient
+    private List<Reaccion> meDisgusta;
+
+    @Transient
+    private List<Reaccion> meIndigna;
+
     public Post(String texto, Imagen imagen, Usuario usuario, List<Comentario> comentarios, List<Persona> personasEtiquetadas, List<Reaccion> reacciones, Date fecha) {
         this.texto = texto;
         this.imagen = imagen;
@@ -42,6 +57,66 @@ public class Post implements Serializable {
     }
 
     public Post() {
+    }
+
+    public long getCantidadMeGusta() {
+        return this.meGusta == null ? 0 : this.meGusta.size();
+    }
+
+    public long getCantidadMeEncanta() {
+        return this.meEncanta == null ? 0 : this.meEncanta.size();
+    }
+
+    public long getCantidadMeh() {
+        return this.meh == null ? 0 : this.meh.size();
+    }
+
+    public long getCantidadMeDisgusta() {
+        return this.meDisgusta == null ? 0 : this.meDisgusta.size();
+    }
+
+    public long getCantidadMeIndigna() {
+        return this.meIndigna == null ? 0 : this.meIndigna.size();
+    }
+
+    public List<Reaccion> getMeGusta() {
+        return meGusta;
+    }
+
+    public void setMeGusta(List<Reaccion> meGusta) {
+        this.meGusta = meGusta;
+    }
+
+    public List<Reaccion> getMeEncanta() {
+        return meEncanta;
+    }
+
+    public void setMeEncanta(List<Reaccion> meEncanta) {
+        this.meEncanta = meEncanta;
+    }
+
+    public List<Reaccion> getMeh() {
+        return meh;
+    }
+
+    public void setMeh(List<Reaccion> meh) {
+        this.meh = meh;
+    }
+
+    public List<Reaccion> getMeDisgusta() {
+        return meDisgusta;
+    }
+
+    public void setMeDisgusta(List<Reaccion> meDisgusta) {
+        this.meDisgusta = meDisgusta;
+    }
+
+    public List<Reaccion> getMeIndigna() {
+        return meIndigna;
+    }
+
+    public void setMeIndigna(List<Reaccion> meIndigna) {
+        this.meIndigna = meIndigna;
     }
 
     public long getId() {
