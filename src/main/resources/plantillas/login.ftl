@@ -35,27 +35,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="nacionalidad">Fecha de nacimiento</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-globe-americas"></i>
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label for="fecha-nacimiento">Fecha de nacimiento</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
                                         </div>
+                                        <input type="date" class="form-control" name="fecha-nacimiento" required>
                                     </div>
-                                    <input type="date" class="form-control" name="fecha-nacimiento" required>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="nacionalidad">Nacionalidad</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-globe-americas"></i>
+                                <div class="form-group col-6">
+                                    <label for="nacionalidad">Nacionalidad</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-globe-americas"></i>
+                                            </div>
                                         </div>
+                                        <input type="text" class="form-control" name="nacionalidad"
+                                               placeholder="Nacionalidad" maxlength="30" required>
                                     </div>
-                                    <input type="text" class="form-control" name="nacionalidad"
-                                           placeholder="Nacionalidad" maxlength="30" required>
                                 </div>
                             </div>
                             <div class="form-group col-12">
