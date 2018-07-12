@@ -36,6 +36,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="nacionalidad">Fecha de nacimiento</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-globe-americas"></i>
+                                        </div>
+                                    </div>
+                                    <input type="date" class="form-control" name="fecha-nacimiento" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="nacionalidad">Nacionalidad</label>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">

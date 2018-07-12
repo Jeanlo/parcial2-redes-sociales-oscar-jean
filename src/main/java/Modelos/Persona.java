@@ -2,7 +2,7 @@ package Modelos;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -42,12 +42,14 @@ public class Persona implements Serializable {
     private Date fechaRegistro;
     private String sitioWeb;
 
-    public Persona(Usuario usuario, String nombre, String apellido, String sexo, String nacionalidad) {
+    public Persona(Usuario usuario, String nombre, String apellido, Date fechaNacimiento, String sexo, String nacionalidad, Date fechaRegistro) {
         this.usuario = usuario;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
         this.sexo = sexo;
         this.nacionalidad = nacionalidad;
+        this.fechaRegistro = fechaRegistro;
     }
 
     public Persona() {
