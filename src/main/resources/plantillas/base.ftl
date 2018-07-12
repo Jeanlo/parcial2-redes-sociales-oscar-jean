@@ -1,4 +1,4 @@
-<#macro pagina logueado=false usuario="">
+<#macro pagina logueado=false usuario="" persona="">
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +50,7 @@
                         <#if logueado>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="/perfil">
+                                    <a class="nav-link" href="/perfil/${usuario.usuario}">
                                         <i class="fas fa-user"></i> Perfil
                                         <span class="sr-only">(current)</span>
                                     </a>
