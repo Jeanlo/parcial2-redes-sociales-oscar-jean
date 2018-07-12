@@ -14,10 +14,9 @@ import spark.Session;
 
 import java.io.StringWriter;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static spark.Spark.*;
 
@@ -183,12 +182,18 @@ public class Enrutamiento {
             String contrasena = req.queryParams("contrasena");
             String sexo = req.queryParams("sexo");
             String nacionalidad = req.queryParams("nacionalidad");
+            String sfechaNacimiento = req.queryParams("fecha-nacimiento");
+
+            System.out.println(sfechaNacimiento);
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            java.util.Date fechaNacimiento = df.parse(sfechaNacimiento);
 
             long id = ServicioUsuario.getInstancia().listar().get(ServicioUsuario.getInstancia().listar().size() - 1).getId() + 1;
 
             Usuario userNuevo = new Usuario(id, username, contrasena, false, null);
             ServicioUsuario.getInstancia().crear(userNuevo);
-            Persona personaNueva = new Persona(usuario, nombre, apellido, sexo, nacionalidad);
+            Persona personaNueva = new Persona(usuario, nombre, apellido, fechaNacimiento, sexo, nacionalidad, new java.util.Date(System.currentTimeMillis()));
             ServicioPersona.getInstancia().crear(personaNueva);
 
             res.redirect("/");
