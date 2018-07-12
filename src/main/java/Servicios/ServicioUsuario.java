@@ -62,4 +62,18 @@ public class ServicioUsuario extends ServicioBaseDatos<Usuario> {
             em.close();
         }
     }
+
+    public Object encontrarPersonaUsuario(String usuario) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery("from Persona persona where persona.usuario.usuario = :usuario_actual");
+            query.setParameter("usuario_actual", usuario);
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }

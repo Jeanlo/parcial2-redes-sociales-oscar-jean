@@ -193,7 +193,7 @@ public class Enrutamiento {
 
             Usuario userNuevo = new Usuario(id, username, contrasena, false, null);
             ServicioUsuario.getInstancia().crear(userNuevo);
-            Persona personaNueva = new Persona(usuario, nombre, apellido, fechaNacimiento, sexo, nacionalidad, new java.util.Date(System.currentTimeMillis()));
+            Persona personaNueva = new Persona(userNuevo, nombre, apellido, fechaNacimiento, sexo, nacionalidad, new java.util.Date(System.currentTimeMillis()));
             ServicioPersona.getInstancia().crear(personaNueva);
 
             res.redirect("/");
@@ -309,6 +309,35 @@ public class Enrutamiento {
             res.redirect("/amigos");
 
             return null;
+        });
+
+        get("/perfil/:usuario", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            nombreUsuario = req.params("usuario");
+            Map<String, Object> atributos = new HashMap<>();
+            Template template = configuration.getTemplate("plantillas/perfil.ftl");
+
+            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
+
+            List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
+
+            for (Post post : listaPost) {
+                post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
+                post.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-encanta"));
+                post.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "meh"));
+                post.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-disgusta"));
+                post.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-indigna"));
+            }
+
+            atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("usuarios", ServicioUsuario.getInstancia().listar());
+            atributos.put("usuario", usuario);
+            atributos.put("nombreUsuario", nombreUsuario);
+            atributos.put("persona", persona);
+            atributos.put("listaPost", listaPost);
+            template.process(atributos, writer);
+
+            return writer;
         });
     }
 
