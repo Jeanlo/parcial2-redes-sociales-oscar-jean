@@ -8,7 +8,7 @@
                         Registrarse
                     </h5>
                     <div class="card-body">
-                        <form action="/registrar" method="POST">
+                        <form action="/registrar" method="POST" id="form-registrar">
                             <div class="form-row">
                                 <div class="form-group col-6">
                                     <label for="nombre">Nombre</label>
@@ -47,7 +47,7 @@
                                            placeholder="Nacionalidad" maxlength="30" required>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-12">
                                 <label for="sexo">Sexo</label>
                                 <br>
                                 <div class="form-check form-check-inline">
@@ -94,4 +94,27 @@
             </div>
         </div>
     </div>
+    <script src="/js/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#form-registrar").validate({
+                rules: {
+                    nombre: "required",
+                    apellido: "required",
+                    nacionalidad: "required",
+                    sexo: "required",
+                    usuario: "required",
+                    contrasena: "required"
+                },
+                messages: {
+                    nombre: "Campo requerido",
+                    apellido: "Campo requerido",
+                    nacionalidad: "Campo requerido",
+                    sexo: "Campo requerido",
+                    usuario: "Campo requerido",
+                    contrasena: "Campo requerido"
+                }
+            });
+        });
+    </script>
 </@base.pagina>
