@@ -79,6 +79,21 @@ public class Enrutamiento {
             }
         });
 
+        before("/perfil/:usuario", (req, res) -> {
+            if (req.cookie("sesionSemanal") != null) {
+                Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
+
+                if (usuarioRestaurado != null) {
+                    req.session(true);
+                    req.session().attribute("sesionUsuario", usuarioRestaurado);
+                }
+            }
+
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/login");
+            }
+        });
+
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();

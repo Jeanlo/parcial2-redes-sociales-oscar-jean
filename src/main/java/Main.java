@@ -1,5 +1,7 @@
+import Modelos.Persona;
 import Modelos.Usuario;
 import Servicios.ServicioBootstrap;
+import Servicios.ServicioPersona;
 import Servicios.ServicioUsuario;
 
 /*********************************************************
@@ -17,7 +19,10 @@ public class Main {
             ServicioBootstrap.iniciarBaseDatos();
             // Insertando el usuario por defecto (administrador).
             if (ServicioUsuario.getInstancia().encontrar(new Long(1)) == null) {
-                ServicioUsuario.getInstancia().crear(new Usuario(new Long(1), "admin", "1234", true, null));
+                Usuario usuarioAdmin = new Usuario(new Long(1), "admin", "1234", true, null);
+                ServicioUsuario.getInstancia().crear(usuarioAdmin);
+                Persona personaAdmin = new Persona(usuarioAdmin, "Admin", "istrador", new java.util.Date(System.currentTimeMillis()), "M", "Dominicano", new java.util.Date(System.currentTimeMillis()));
+                ServicioPersona.getInstancia().crear(personaAdmin);
             }
             Enrutamiento.crearRutas();
         } catch (Exception e) {
