@@ -185,19 +185,12 @@ public class Enrutamiento {
             java.sql.Date tiempoAhora = new Date(System.currentTimeMillis());
 
             String texto = req.queryParams("texto");
-            //String imagen = req.queryParams("imagen");
-            Map<String, String[]> etiquetarA = req.queryMap("etiquetas[]").toMap();
-            System.out.println("AQUI PAPA: " + etiquetarA.toString());
+            String etiquetarA = req.queryParams("etiquetas[]");
 
-            for(String[] a: etiquetarA.values()) {
-                for(String b: a) {
-                    System.out.println("AQUI PAPU: " + b);
-                }
-            }
+            List<Persona> personasEtiquetadas = new ArrayList<>();
+            personasEtiquetadas.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetarA));
 
-            //Imagen imagenAux = new Imagen(imagen, " ", null, null);
-
-            Post post = new Post(texto, null, usuario, null, null, null, tiempoAhora);
+            Post post = new Post(texto, null, usuario, null, personasEtiquetadas, null, tiempoAhora);
             ServicioPost.getInstancia().crear(post);
 
             res.redirect("/");
