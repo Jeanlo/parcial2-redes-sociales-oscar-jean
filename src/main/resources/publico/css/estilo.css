@@ -60,3 +60,9 @@ label.error {
 .card {
     z-index: -1;
 }
+
+.select2 {
+    color: rgba(255, 189, 46, 1) !important;
+    font-weight: bold;
+    width: 750px;
+}
