@@ -28,4 +28,5 @@ public class ServicioPost extends ServicioBaseDatos<Post> {
 
         return lista;
     }
+
 }

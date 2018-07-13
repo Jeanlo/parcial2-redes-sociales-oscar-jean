@@ -27,7 +27,6 @@
                     </div>
                 </div>
                  <#list listaPost as post>
-                     <#if post.usuario.usuario == usuario.usuario>
                           <div class="bg-dark text-white rounded-0 col-6 mx-auto p-0 mb-2">
                               <div class="card-header">
                                   ${post.usuario.usuario} |
@@ -62,7 +61,6 @@
                                   </button>
                               </div>
                           </div>
-                     </#if>
                  </#list>
             </div>
         </div>
