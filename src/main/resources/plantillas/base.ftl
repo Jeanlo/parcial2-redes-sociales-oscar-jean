@@ -8,9 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>bacano</title>
 
-    <!-- jQuery -->
-    <script src="/js/jquery-3.2.1.min.js"></script>
-
     <!-- Bootstrap 4.1 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">

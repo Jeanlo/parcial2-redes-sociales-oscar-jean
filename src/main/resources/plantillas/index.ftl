@@ -18,12 +18,14 @@
                         <div class="card-footer">
                             <button class="btn btn-reaccion" data-tipo="me-gusta" data-id="${post.id}">
                                 <i class="far fa-thumbs-up fa-2x" style="color: rgb(55, 175, 255)" title="Me gusta"></i>
-                                <span class="badge badge-secondary" id="badge-me-gusta-${post.id}">${post.cantidadMeGusta}</span>
+                                <span class="badge badge-secondary"
+                                      id="badge-me-gusta-${post.id}">${post.cantidadMeGusta}</span>
                             </button>
                             <button class="btn btn-reaccion" data-tipo="me-encanta" data-id="${post.id}">
                                 <i class="far fa-grin-beam fa-2x" style="color: rgb(255, 94, 180)"
                                    title="Me encanta"></i>
-                                <span class="badge badge-secondary" id="badge-me-encanta-${post.id}">${post.cantidadMeEncanta}</span>
+                                <span class="badge badge-secondary"
+                                      id="badge-me-encanta-${post.id}">${post.cantidadMeEncanta}</span>
                             </button>
                             <button class="btn btn-reaccion" data-tipo="meh" data-id="${post.id}">
                                 <i class="far fa-meh fa-2x" style="color: rgb(255, 158, 41)" title="Meh"></i>
@@ -31,11 +33,13 @@
                             </button>
                             <button class="btn btn-reaccion" data-tipo="me-disgusta" data-id="${post.id}">
                                 <i class="far fa-frown fa-2x" style="color: rgb(255, 75, 75)" title="Me disgusta"></i>
-                                <span class="badge badge-secondary" id="badge-me-disgusta-${post.id}">${post.cantidadMeDisgusta}</span>
+                                <span class="badge badge-secondary"
+                                      id="badge-me-disgusta-${post.id}">${post.cantidadMeDisgusta}</span>
                             </button>
                             <button class="btn btn-reaccion" data-tipo="me-indigna" data-id="${post.id}">
                                 <i class="fas fa-poo fa-2x" style="color: rgb(214, 135, 79)" title="Me indigna"></i>
-                                <span class="badge badge-secondary" id="badge-me-indigna-${post.id}">${post.cantidadMeIndigna}</span>
+                                <span class="badge badge-secondary"
+                                      id="badge-me-indigna-${post.id}">${post.cantidadMeIndigna}</span>
                             </button>
                         </div>
                     </div>
@@ -47,6 +51,5 @@
     <#include "modal-bacanear.ftl">
 
     <form action="/reaccionar" method="POST" id="form-reaccionar"></form>
-    <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/reaccionar.js"></script>
 </@base.pagina>

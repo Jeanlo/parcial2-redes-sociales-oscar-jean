@@ -108,9 +108,16 @@ public class Enrutamiento {
                 post.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-indigna"));
             }
 
+            List<Persona> amigos = new ArrayList<>();
+
+            for (Usuario usu : usuario.getAmigos()) {
+                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usu.getUsuario()));
+            }
+
             atributos.put("usuario", usuario);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("listaPost", listaPost);
+            atributos.put("amigos", amigos);
             template.process(atributos, writer);
 
             return writer;
@@ -179,7 +186,14 @@ public class Enrutamiento {
 
             String texto = req.queryParams("texto");
             //String imagen = req.queryParams("imagen");
-            //String etiquetar = req.queryParams("etiquetar");
+            Map<String, String[]> etiquetarA = req.queryMap("etiquetas[]").toMap();
+            System.out.println("AQUI PAPA: " + etiquetarA.toString());
+
+            for(String[] a: etiquetarA.values()) {
+                for(String b: a) {
+                    System.out.println("AQUI PAPU: " + b);
+                }
+            }
 
             //Imagen imagenAux = new Imagen(imagen, " ", null, null);
 
@@ -289,15 +303,15 @@ public class Enrutamiento {
             List<Usuario> usuariosNoAmigos = new ArrayList<>();
 
 
-            for(Usuario usu: usuarios){
+            for (Usuario usu : usuarios) {
                 Boolean esAmigo = false;
-                for(Usuario amigo: usuario.getAmigos()){
-                    if(usu.getUsuario() == amigo.getUsuario() || usu.getUsuario() == usuario.getUsuario()) {
+                for (Usuario amigo : usuario.getAmigos()) {
+                    if (usu.getUsuario() == amigo.getUsuario() || usu.getUsuario() == usuario.getUsuario()) {
                         esAmigo = true;
                         break;
                     }
                 }
-                if(esAmigo) {
+                if (esAmigo) {
                     continue;
                 }
                 usuariosNoAmigos.add(usu);

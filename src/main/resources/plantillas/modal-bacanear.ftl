@@ -24,13 +24,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="etiquetar">Etiquetar</label>
-                        <select multiple class="form-control rounded-0" name="etiquetar">
-                            <option>Oscar Núñez</option>
-                            <option>Carlos Camacho</option>
-                            <option>Carlos Pérez</option>
-                            <option>Nelson Duran</option>
-                            <option>César Peña</option>
+                        <label for="etiquetar">Etiquetar</label><br>
+                        <select class="select2 form-control rounded-0" name="etiquetas[]" multiple="multiple">
+                            <#list amigos as amigo>
+                                <option value="${amigo.usuario.usuario}">${amigo.nombre} ${amigo.apellido}</option>
+                            </#list>
                         </select>
                     </div>
                     <div class="modal-footer">
@@ -46,3 +44,11 @@
         </div>
     </div>
 </div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".select2").select2();
+    });
+</script>
