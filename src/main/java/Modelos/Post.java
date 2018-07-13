@@ -23,7 +23,7 @@ public class Post implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Comentario> comentarios;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Persona> personasEtiquetadas;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

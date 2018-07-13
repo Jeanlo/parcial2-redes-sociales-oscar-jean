@@ -342,8 +342,14 @@ public class Enrutamiento {
             Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
 
             List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
+            List<Post> listaPostPropios = new ArrayList<>();
 
             for (Post post : listaPost) {
+                for(Persona personaX : post.getPersonasEtiquetadas()){
+                    if(personaX.getUsuario().getUsuario() == usuario.getUsuario() || post.getUsuario().getUsuario() == usuario.getUsuario()){
+                        listaPostPropios.add(post);
+                    }
+                }
                 post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
                 post.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-encanta"));
                 post.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "meh"));
@@ -351,12 +357,20 @@ public class Enrutamiento {
                 post.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-indigna"));
             }
 
+            List<Persona> amigos = new ArrayList<>();
+
+            for (Usuario usu : usuario.getAmigos()) {
+                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usu.getUsuario()));
+            }
+
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("usuarios", ServicioUsuario.getInstancia().listar());
             atributos.put("usuario", usuario);
             atributos.put("nombreUsuario", nombreUsuario);
             atributos.put("persona", persona);
-            atributos.put("listaPost", listaPost);
+            atributos.put("listaPost", listaPostPropios);
+            atributos.put("amigos", amigos);
+
             template.process(atributos, writer);
 
             return writer;
