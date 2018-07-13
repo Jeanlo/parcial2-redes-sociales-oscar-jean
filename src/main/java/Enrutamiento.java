@@ -345,11 +345,18 @@ public class Enrutamiento {
             List<Post> listaPostPropios = new ArrayList<>();
 
             for (Post post : listaPost) {
-                for(Persona personaX : post.getPersonasEtiquetadas()){
-                    if(personaX.getUsuario().getUsuario() == usuario.getUsuario() || post.getUsuario().getUsuario() == usuario.getUsuario()){
-                        listaPostPropios.add(post);
+                if (post.getUsuario().getUsuario() == usuario.getUsuario()) {
+                    listaPostPropios.add(post);
+                } else {
+                    for (Persona personaX : post.getPersonasEtiquetadas()) {
+                        if (personaX.getUsuario().getUsuario() == usuario.getUsuario()) {
+                            listaPostPropios.add(post);
+                        }
                     }
                 }
+            }
+
+            for (Post post : listaPostPropios) {
                 post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
                 post.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-encanta"));
                 post.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "meh"));
