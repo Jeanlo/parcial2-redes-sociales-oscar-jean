@@ -12,20 +12,24 @@ public class Notificacion implements Serializable {
     private String texto;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private Usuario usuario;
+    private Usuario hasta;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Usuario desde;
 
     private Date fecha;
 
-    private Boolean leida;
+    private String tipoNotificacion;
 
     public Notificacion() {
     }
 
-    public Notificacion(String texto, Usuario usuario, Date fecha, Boolean leida) {
+    public Notificacion(String texto, Usuario desde, Usuario hasta, Date fecha, String tipoNotificacion) {
         this.texto = texto;
-        this.usuario = usuario;
+        this.desde = desde;
+        this.hasta = hasta;
         this.fecha = fecha;
-        this.leida = leida;
+        this.tipoNotificacion = tipoNotificacion;
     }
 
     public long getId() {
@@ -44,12 +48,20 @@ public class Notificacion implements Serializable {
         this.texto = texto;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getDesde() {
+        return desde;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setDesde(Usuario desde) {
+        this.desde = desde;
+    }
+
+    public Usuario getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(Usuario usuario) {
+        this.hasta = usuario;
     }
 
     public Date getFecha() {
@@ -60,12 +72,12 @@ public class Notificacion implements Serializable {
         this.fecha = fecha;
     }
 
-    public Boolean getLeida() {
-        return leida;
+    public String getTipoNotificacion() {
+        return tipoNotificacion;
     }
 
-    public void setLeida(Boolean leida) {
-        this.leida = leida;
+    public void setTipoNotificacion(String tipoNotificacion) {
+        this.tipoNotificacion = tipoNotificacion;
     }
 }
 

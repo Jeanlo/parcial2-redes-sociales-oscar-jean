@@ -187,28 +187,33 @@ public class Enrutamiento {
             java.sql.Date tiempoAhora = new Date(System.currentTimeMillis());
 
             String texto = req.queryParams("texto");
-            String etiquetarA = req.queryParams("etiquetado");
+            String etiquetado = req.queryParams("etiquetado");
 
-            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetarA);
+            if (!etiquetado.isEmpty()) {
+                Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado);
 
-            Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
+                Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
 
-            Notificacion notificacion = new Notificacion(
-                    personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un post.",
-                    persona.getUsuario(), new java.util.Date(System.currentTimeMillis()),
-                    false);
+                Notificacion notificacion = new Notificacion(
+                        personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un post.",
+                        usuario, persona.getUsuario(), new java.util.Date(System.currentTimeMillis()),
+                        "Etiquetacion");
 
-            ServicioNotificacion.getInstancia().crear(notificacion);
+                ServicioNotificacion.getInstancia().crear(notificacion);
 
-            Usuario user = persona.getUsuario();
+                Usuario user = persona.getUsuario();
 
-            user.getNotificaciones().add(notificacion);
-            ServicioUsuario.getInstancia().editar(user);
-
-            Post post = new Post(texto, null, usuario, null, persona, null, tiempoAhora);
-            ServicioPost.getInstancia().crear(post);
+                user.getNotificaciones().add(notificacion);
+                ServicioUsuario.getInstancia().editar(user);
+                Post post = new Post(texto, null, usuario, null, persona, null, tiempoAhora);
+                ServicioPost.getInstancia().crear(post);
+            } else {
+                Post post = new Post(texto, null, usuario, null, null, null, tiempoAhora);
+                ServicioPost.getInstancia().crear(post);
+            }
 
             res.redirect("/");
+
             return null;
         });
 
@@ -375,11 +380,44 @@ public class Enrutamiento {
 
         post("/agregarAmigo/:usuario", (req, res) -> {
             String username = req.params("usuario");
-            Persona personaAmigo = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(username);
-            usuario.getAmigos().add(personaAmigo);
-            ServicioUsuario.getInstancia().editar(usuario);
+
+            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(username);
+
+            Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
+
+            Notificacion notificacion = new Notificacion(
+                    personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " quiere agregarte como amigo.",
+                    usuario, persona.getUsuario(), new java.util.Date(System.currentTimeMillis()),
+                    "Solicitud amistad");
+
+            ServicioNotificacion.getInstancia().crear(notificacion);
+
+            Usuario user = persona.getUsuario();
+
+            user.getNotificaciones().add(notificacion);
+            ServicioUsuario.getInstancia().editar(user);
 
             res.redirect("/amigos");
+
+            return null;
+        });
+
+        post("/aceptarAmigo/:usuario", (req, res) -> {
+            String username = req.params("usuario");
+
+            Usuario usuAmigo = (Usuario) ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(username);
+
+            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(username);
+            Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
+
+
+            usuario.getAmigos().add(persona);
+            usuAmigo.getAmigos().add(personaUsuario);
+
+            ServicioUsuario.getInstancia().editar(usuario);
+            ServicioUsuario.getInstancia().editar(usuAmigo);
+
+            res.redirect("/");
 
             return null;
         });
@@ -390,7 +428,7 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/perfil.ftl");
 
-            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
+            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
 
             List<Post> posts = ServicioPost.getInstancia().buscarPosts();
             List<Post> listaPostPropios = new ArrayList<>();
@@ -399,9 +437,10 @@ public class Enrutamiento {
                 if (post.getUsuario().getUsuario() == usuario.getUsuario()) {
                     listaPostPropios.add(post);
                 } else {
-                    Persona personaX = post.getPersonaEtiquetada();
-                    if (personaX.getUsuario().getUsuario() == usuario.getUsuario()) {
-                        listaPostPropios.add(post);
+                    if (post.getPersonaEtiquetada() != null) {
+                        if (post.getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario()) {
+                            listaPostPropios.add(post);
+                        }
                     }
                 }
             }

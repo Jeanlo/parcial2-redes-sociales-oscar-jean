@@ -13,6 +13,7 @@
             <div class="modal-body p-0">
                 <#if usuario.notificaciones?size gt 0>
                     <#list usuario.notificaciones as notificacion>
+                        <#if notificacion.tipoNotificacion?contains("Etiquetacion")>
                         <div class="alert alert-dark rounded-0 m-0">
                             <small>
                                 <i class="fas fa-calendar-alt"></i> ${notificacion.fecha}<br>
@@ -21,6 +22,17 @@
                                 </a>
                             </small>
                         </div>
+                        <#else>
+                        <div class="alert alert-dark rounded-0 m-0">
+                            <small>
+                                <i class="fas fa-calendar-alt"></i> ${notificacion.fecha}<br>
+                                ${notificacion.texto}
+                                <form action="/aceptarAmigo/${notificacion.desde.usuario}" method="POST">
+                                    <button class="btn btn-outline-dark" type="submit">Aceptar amigo</button>
+                                </form>
+                            </small>
+                        </div>
+                        </#if>
                     </#list>
                 <#else>
                     <div class="alert alert-dark rounded-0 m-0">
