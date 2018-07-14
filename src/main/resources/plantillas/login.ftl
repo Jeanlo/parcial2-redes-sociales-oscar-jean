@@ -98,6 +98,73 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <div class="col-6">
+
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-sm btn-outline-light float-right"
+                                            id="btn-mostrar-mas">
+                                        Mostrar más
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-row form-mas">
+                                <div class="form-group col-6">
+                                    <label for="estudio">Estudio en...</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-user-graduate"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="estudio"
+                                               placeholder="Estudio en..."
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="trabajo">Trabaja en...</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="trabajo"
+                                               placeholder="Trabaja en..."
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row form-mas">
+                                <div class="form-group col-6">
+                                    <label for="creencia">Creo en...</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-dove"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="creencia"
+                                               placeholder="Creo en..."
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="sitio-web">Mi sitio web es...</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-globe"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="sitio-web"
+                                               placeholder="Mi sitio web es..."
+                                        >
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-outline-warning">
                                 <i class="fas fa-angle-right"></i> Registrarse
                             </button>
@@ -110,11 +177,18 @@
     <script src="/js/jquery-validation/dist/jquery.validate.min.js"></script>
     <script>
         $(document).ready(function () {
+            $(".form-mas").hide();
+
+            $("#btn-mostrar-mas").unbind().click(function () {
+                $(".form-mas").toggle();
+            });
+
             $("#form-registrar").validate({
                 rules: {
                     nombre: "required",
                     apellido: "required",
                     nacionalidad: "required",
+                    "fecha-nacimiento": "required",
                     sexo: "required",
                     usuario: "required",
                     contrasena: "required"
@@ -123,6 +197,7 @@
                     nombre: "Campo requerido",
                     apellido: "Campo requerido",
                     nacionalidad: "Campo requerido",
+                    "fecha-nacimiento": "Campo requerido",
                     sexo: "Campo requerido",
                     usuario: "Campo requerido",
                     contrasena: "Campo requerido"
