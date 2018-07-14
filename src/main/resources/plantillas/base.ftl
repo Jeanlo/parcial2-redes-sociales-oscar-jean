@@ -46,20 +46,21 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <#if logueado>
                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
+                                <li class="nav-item">
                                     <a class="nav-link" href="/perfil/${usuario.usuario}">
-                                        <i class="fas fa-user"></i> Perfil
-                                        <span class="sr-only">(current)</span>
+                                        <i class="fas fa-user"></i> ${usuario.usuario}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/amigos">
-                                        <i class="fas fa-users"></i> Amigos</a>
+                                        <i class="fas fa-users"></i> Amigos
+                                    </a>
                                 </li>
                                 <#if usuario.administrator>
                                      <li class="nav-item">
                                          <a class="nav-link" href="/subirPrivilegios">
-                                             <i class="fas fa-unlock-alt"></i> Subir privilegios </a>
+                                             <i class="fas fa-unlock-alt"></i> Subir privilegios
+                                         </a>
                                      </li>
                                 </#if>
                             </ul>

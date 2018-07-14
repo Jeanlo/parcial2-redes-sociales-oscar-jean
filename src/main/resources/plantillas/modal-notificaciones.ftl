@@ -11,13 +11,22 @@
                 </button>
             </div>
             <div class="modal-body p-0">
-                <#list usuario.notificaciones as notificacion>
+                <#if usuario.notificaciones?size gt 0>
+                    <#list usuario.notificaciones as notificacion>
+                        <div class="alert alert-dark rounded-0 m-0">
+                            <small>
+                                <i class="fas fa-calendar-alt"></i> ${notificacion.fecha}<br>
+                                <a href="/perfil/${usuario.usuario}" class="alert-link">
+                                    ${notificacion.texto}
+                                </a>
+                            </small>
+                        </div>
+                    </#list>
+                <#else>
                     <div class="alert alert-dark rounded-0 m-0">
-                        <a href="/perfil/${usuario.usuario}" class="alert-link">
-                            ${notificacion.texto} - ${notificacion.fecha}
-                        </a>
+                        No tienes ninguna notificación.
                     </div>
-                </#list>
+                </#if>
             </div>
         </div>
     </div>

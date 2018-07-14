@@ -1,5 +1,6 @@
 package Servicios;
 
+import Modelos.Persona;
 import Modelos.Usuario;
 
 import javax.persistence.EntityManager;
@@ -70,6 +71,33 @@ public class ServicioUsuario extends ServicioBaseDatos<Usuario> {
             Query query = em.createQuery("from Persona persona where persona.usuario.usuario = :usuario_actual");
             query.setParameter("usuario_actual", usuario);
             return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Persona> sugerirUsuario(String nacionalidad, String estudio, String trabajo, String creencia, String sitioWeb) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery(
+                    "from Persona persona " +
+                            "where persona.nacionalidad = :usuario_nacionalidad" +
+                            " or persona.estudio = :usuario_estudio" +
+                            " or persona.trabajo = :usuario_trabajo" +
+                            " or persona.creencia = :usuario_creencia" +
+                            " or persona.sitioWeb = :usuario_sitioWeb"
+            );
+
+            query.setParameter("usuario_nacionalidad", nacionalidad);
+            query.setParameter("usuario_estudio", estudio);
+            query.setParameter("usuario_trabajo", trabajo);
+            query.setParameter("usuario_creencia", creencia);
+            query.setParameter("usuario_sitioWeb", sitioWeb);
+
+            return query.getResultList();
         } catch (Exception ex) {
             return null;
         } finally {

@@ -14,7 +14,7 @@ public class Usuario implements Serializable {
     private String sesion;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Usuario> amigos;
+    private List<Persona> amigos;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Notificacion> notificaciones;
@@ -45,11 +45,11 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public List<Usuario> getAmigos() {
+    public List<Persona> getAmigos() {
         return amigos;
     }
 
-    public void setAmigos(List<Usuario> amigos) {
+    public void setAmigos(List<Persona> amigos) {
         this.amigos = amigos;
     }
 

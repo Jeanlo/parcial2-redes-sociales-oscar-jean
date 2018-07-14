@@ -112,8 +112,8 @@ public class Enrutamiento {
 
             List<Persona> amigos = new ArrayList<>();
 
-            for (Usuario usu : usuario.getAmigos()) {
-                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usu.getUsuario()));
+            for (Persona persona : usuario.getAmigos()) {
+                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(persona.getUsuario().getUsuario()));
             }
 
             atributos.put("usuario", usuario);
@@ -187,10 +187,17 @@ public class Enrutamiento {
             java.sql.Date tiempoAhora = new Date(System.currentTimeMillis());
 
             String texto = req.queryParams("texto");
-            String etiquetarA = req.queryParams("etiquetas[]");
+            String etiquetarA = req.queryParams("etiquetado");
 
             Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetarA);
-            Notificacion notificacion = new Notificacion(usuario.getUsuario() + " te ha etiquetado en un post.", persona.getUsuario(), new java.util.Date(System.currentTimeMillis()), false);
+
+            Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
+
+            Notificacion notificacion = new Notificacion(
+                    personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un post.",
+                    persona.getUsuario(), new java.util.Date(System.currentTimeMillis()),
+                    false);
+
             ServicioNotificacion.getInstancia().crear(notificacion);
 
             Usuario user = persona.getUsuario();
@@ -198,10 +205,7 @@ public class Enrutamiento {
             user.getNotificaciones().add(notificacion);
             ServicioUsuario.getInstancia().editar(user);
 
-            List<Persona> personasEtiquetadas = new ArrayList<>();
-            personasEtiquetadas.add(persona);
-
-            Post post = new Post(texto, null, usuario, null, personasEtiquetadas, null, tiempoAhora);
+            Post post = new Post(texto, null, usuario, null, persona, null, tiempoAhora);
             ServicioPost.getInstancia().crear(post);
 
             res.redirect("/");
@@ -348,27 +352,21 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/amigos.ftl");
 
-            List<Usuario> usuarios = ServicioUsuario.getInstancia().listar();
-            List<Usuario> usuariosNoAmigos = new ArrayList<>();
+            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
 
+            List<Persona> usuariosSugeridos =
+                    ServicioUsuario.getInstancia().sugerirUsuario(persona.getNacionalidad(), persona.getEstudio(), persona.getTrabajo(), persona.getCreencia(), persona.getSitioWeb());
 
-            for (Usuario usu : usuarios) {
-                Boolean esAmigo = false;
-                for (Usuario amigo : usuario.getAmigos()) {
-                    if (usu.getUsuario() == amigo.getUsuario() || usu.getUsuario() == usuario.getUsuario()) {
-                        esAmigo = true;
-                        break;
+            for (Persona per : usuario.getAmigos()) {
+                for (int i = 0; i < usuariosSugeridos.size(); i++) {
+                    if (per.getUsuario().getUsuario().equals(usuariosSugeridos.get(i).getUsuario().getUsuario())) {
+                        usuariosSugeridos.remove(usuariosSugeridos.get(i));
                     }
                 }
-                if (esAmigo) {
-                    continue;
-                }
-                usuariosNoAmigos.add(usu);
             }
 
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-            atributos.put("usuarios", usuarios);
-            atributos.put("usuariosNoAmigos", usuariosNoAmigos);
+            atributos.put("usuariosSugeridos", usuariosSugeridos);
             atributos.put("usuario", usuario);
             template.process(atributos, writer);
 
@@ -377,12 +375,9 @@ public class Enrutamiento {
 
         post("/agregarAmigo/:usuario", (req, res) -> {
             String username = req.params("usuario");
-            Usuario usuarioAmigo = (Usuario) ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(username);
-            usuario.getAmigos().add(usuarioAmigo);
+            Persona personaAmigo = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(username);
+            usuario.getAmigos().add(personaAmigo);
             ServicioUsuario.getInstancia().editar(usuario);
-
-            //usuarioAmigo.getAmigos().add(usuario);
-            //ServicioUsuario.getInstancia().editar(usuarioAmigo);
 
             res.redirect("/amigos");
 
@@ -404,10 +399,9 @@ public class Enrutamiento {
                 if (post.getUsuario().getUsuario() == usuario.getUsuario()) {
                     listaPostPropios.add(post);
                 } else {
-                    for (Persona personaX : post.getPersonasEtiquetadas()) {
-                        if (personaX.getUsuario().getUsuario() == usuario.getUsuario()) {
-                            listaPostPropios.add(post);
-                        }
+                    Persona personaX = post.getPersonaEtiquetada();
+                    if (personaX.getUsuario().getUsuario() == usuario.getUsuario()) {
+                        listaPostPropios.add(post);
                     }
                 }
             }
@@ -430,8 +424,8 @@ public class Enrutamiento {
 
             List<Persona> amigos = new ArrayList<>();
 
-            for (Usuario usu : usuario.getAmigos()) {
-                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usu.getUsuario()));
+            for (Persona per : usuario.getAmigos()) {
+                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(per.getUsuario().getUsuario()));
             }
 
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
@@ -462,7 +456,6 @@ public class Enrutamiento {
             return com.getId() + "," + com.getFecha().toString() + "," + postAux.getComentarios().size();
         });
     }
-
 
     private static Usuario restaurarSesion(String cookie) {
         StrongTextEncryptor encriptador = new StrongTextEncryptor();

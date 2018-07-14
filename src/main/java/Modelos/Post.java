@@ -23,8 +23,8 @@ public class Post implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Comentario> comentarios;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Persona> personasEtiquetadas;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Persona personaEtiquetada;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Reaccion> reacciones;
@@ -46,12 +46,12 @@ public class Post implements Serializable {
     @Transient
     private List<Reaccion> meIndigna;
 
-    public Post(String texto, Imagen imagen, Usuario usuario, List<Comentario> comentarios, List<Persona> personasEtiquetadas, List<Reaccion> reacciones, Date fecha) {
+    public Post(String texto, Imagen imagen, Usuario usuario, List<Comentario> comentarios, Persona personaEtiquetada, List<Reaccion> reacciones, Date fecha) {
         this.texto = texto;
         this.imagen = imagen;
         this.usuario = usuario;
         this.comentarios = comentarios;
-        this.personasEtiquetadas = personasEtiquetadas;
+        this.personaEtiquetada = personaEtiquetada;
         this.reacciones = reacciones;
         Fecha = fecha;
     }
@@ -159,12 +159,12 @@ public class Post implements Serializable {
         this.comentarios = comentarios;
     }
 
-    public List<Persona> getPersonasEtiquetadas() {
-        return personasEtiquetadas;
+    public Persona getPersonaEtiquetada() {
+        return personaEtiquetada;
     }
 
-    public void setPersonasEtiquetadas(List<Persona> personasEtiquetadas) {
-        this.personasEtiquetadas = personasEtiquetadas;
+    public void setPersonaEtiquetada(Persona personaEtiquetada) {
+        this.personaEtiquetada = personaEtiquetada;
     }
 
     public List<Reaccion> getReacciones() {
