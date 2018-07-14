@@ -16,6 +16,17 @@ public class Usuario implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Usuario> amigos;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<Notificacion> notificaciones;
+
+    public List<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(List<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
+    }
+
     public Usuario(String usuario, String contrasena, boolean administrator, String sesion) {
         this.usuario = usuario;
         this.contrasena = contrasena;

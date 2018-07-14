@@ -63,6 +63,11 @@
                                      </li>
                                 </#if>
                             </ul>
+                            <button class="btn btn-outline-light my-2 my-sm-0 mr-2" data-toggle="modal"
+                                    data-target="#notificaciones" type="button">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge badge-secondary">${usuario.notificaciones?size}</span>
+                            </button>
                             <button class="btn btn-outline-warning my-2 my-sm-0" data-toggle="modal"
                                     data-target="#exampleModal" type="button">
                                 <i class="fas fa-feather-alt"></i> Bacanear
