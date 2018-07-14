@@ -25,7 +25,8 @@
                     </div>
                     <div class="form-group">
                         <label for="etiquetar">Etiquetar</label><br>
-                        <select class="select2 form-control rounded-0" name="etiquetas[]" multiple="multiple">
+                        <select class="select2 form-control rounded-0" name="etiquetado">
+                            <option selected value="">Busca un amigo</option>
                             <#list amigos as amigo>
                                 <option value="${amigo.usuario.usuario}">${amigo.nombre} ${amigo.apellido}</option>
                             </#list>

@@ -4,12 +4,10 @@
             <i class="fas fa-user"></i> ${post.usuario.usuario}
             &nbsp;|&nbsp;
             <i class="fas fa-calendar-alt"></i> ${post.fecha}
-            <#if post.personasEtiquetadas?size gt 0>
+            <#if post.personaEtiquetada??>
                 &nbsp;|&nbsp;
                 <i class="fas fa-tag"></i>
-                <#list post.personasEtiquetadas as persona>
-                    ${persona.nombre} ${persona.apellido}<#if !persona?is_last>, </#if>
-                </#list>
+                ${post.personaEtiquetada.nombre} ${post.personaEtiquetada.apellido}
             </#if>
         </small>
     </div>
