@@ -189,8 +189,17 @@ public class Enrutamiento {
             String texto = req.queryParams("texto");
             String etiquetarA = req.queryParams("etiquetas[]");
 
+            Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetarA);
+            Notificacion notificacion = new Notificacion(usuario.getUsuario() + " te ha etiquetado en un post.", persona.getUsuario(), new java.util.Date(System.currentTimeMillis()), false);
+            ServicioNotificacion.getInstancia().crear(notificacion);
+
+            Usuario user = persona.getUsuario();
+
+            user.getNotificaciones().add(notificacion);
+            ServicioUsuario.getInstancia().editar(user);
+
             List<Persona> personasEtiquetadas = new ArrayList<>();
-            personasEtiquetadas.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetarA));
+            personasEtiquetadas.add(persona);
 
             Post post = new Post(texto, null, usuario, null, personasEtiquetadas, null, tiempoAhora);
             ServicioPost.getInstancia().crear(post);

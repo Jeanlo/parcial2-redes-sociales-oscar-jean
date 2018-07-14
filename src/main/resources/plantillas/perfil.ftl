@@ -37,5 +37,6 @@
     <form action="/reaccionarComentario" method="POST" id="form-reaccionar-comentario"></form>
     <script src="/js/reaccionar.js"></script>
     <script src="/js/comentar.js"></script>
+    <#include "modal-notificaciones.ftl">
     <#include "modal-bacanear.ftl">
 </@base.pagina>
