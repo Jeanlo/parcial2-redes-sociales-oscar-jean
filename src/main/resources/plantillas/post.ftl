@@ -1,4 +1,4 @@
-<div class="bg-dark text-white rounded-0 col-6 mx-auto p-0 mb-2">
+<div class="card bg-dark text-white rounded-0 col-6 mx-auto p-0 mb-2">
     <div class="card-header">
         <small class="card-title">
             <i class="fas fa-user"></i> ${post.usuario.usuario}
@@ -45,9 +45,13 @@
             <span class="badge badge-secondary"
                   id="badge-me-indigna-${post.id?string['0']}">${post.cantidadMeIndigna}</span>
         </button>
+        <button type="button" class="btn btn-sm btn-outline-light float-right btn-mostrar-comentarios"
+                data-id="${post.id?string['0']}">
+            Comentarios <span class="badge badge-secondary" id="badge-cantidad-comentarios-${post.id?string['0']}">${post.comentarios?size}</span>
+        </button>
     </div>
 
-    <div class="alert alert-dark rounded-0 m-0">
+    <div class="alert alert-dark rounded-0 m-0 comentario-box" id="comentario-box-${post.id?string['0']}">
         <textarea placeholder="Comenta tu opinión" class="comentario form-control rounded-0"
                   id="texto-${post.id?string['0']}"></textarea>
         <button type="submit" class="btn btn-outline-dark rounded-0 btn-comentar mt-3" data-id="${post.id?string['0']}"
@@ -105,3 +109,15 @@
     <form action="/comentar" method="POST" id="agregaComentario"></form>
 </div>
 
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".comentario-box").hide();
+        $(".comentarios").hide();
+
+        $(".btn-mostrar-comentarios").unbind().click(function () {
+            $("#comentario-box-" + $(this).data("id")).toggle();
+            $("#listaComentarios-" + $(this).data("id")).toggle();
+        });
+    });
+</script>

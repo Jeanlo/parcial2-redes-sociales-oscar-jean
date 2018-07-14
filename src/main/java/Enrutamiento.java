@@ -206,10 +206,14 @@ public class Enrutamiento {
             String contrasena = req.queryParams("contrasena");
             String sexo = req.queryParams("sexo");
             String nacionalidad = req.queryParams("nacionalidad");
+
+            String estudio = req.queryParams("estudio");
+            String trabajo = req.queryParams("trabajo");
+            String creencia = req.queryParams("creencia");
+            String sitioWeb = req.queryParams("sitio-web");
+
             String sfechaNacimiento = req.queryParams("fecha-nacimiento");
-
             System.out.println(sfechaNacimiento);
-
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             java.util.Date fechaNacimiento = df.parse(sfechaNacimiento);
 
@@ -217,7 +221,8 @@ public class Enrutamiento {
 
             Usuario userNuevo = new Usuario(id, username, contrasena, false, null);
             ServicioUsuario.getInstancia().crear(userNuevo);
-            Persona personaNueva = new Persona(userNuevo, nombre, apellido, fechaNacimiento, sexo, nacionalidad, new java.util.Date(System.currentTimeMillis()));
+
+            Persona personaNueva = new Persona(userNuevo, nombre, apellido, fechaNacimiento, sexo, nacionalidad, estudio, trabajo, creencia, sitioWeb, new Date(System.currentTimeMillis()));
             ServicioPersona.getInstancia().crear(personaNueva);
 
             res.redirect("/");
@@ -445,10 +450,8 @@ public class Enrutamiento {
             ServicioComentario.getInstancia().crear(com);
             ServicioPost.getInstancia().editar(postAux);
 
-            return com.getId() + "," + com.getFecha().toString();
+            return com.getId() + "," + com.getFecha().toString() + "," + postAux.getComentarios().size();
         });
-
-
     }
 
 

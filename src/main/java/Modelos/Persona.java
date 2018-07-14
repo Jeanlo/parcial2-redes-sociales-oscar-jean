@@ -19,16 +19,11 @@ public class Persona implements Serializable {
     private Date fechaNacimiento;
     private String sexo;
     private String nacionalidad;
-    private String religion;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 12)
-    private TipoOrientacionSexual orientacionSexual;
-
-    private Boolean tienePareja;
-
-    private String educación;
-    private String profesion;
+    private String estudio;
+    private String trabajo;
+    private String creencia;
+    private String sitioWeb;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Post> postReaccionados;
@@ -40,7 +35,6 @@ public class Persona implements Serializable {
     private List<Album> albumes;
 
     private Date fechaRegistro;
-    private String sitioWeb;
 
     public Persona(Usuario usuario, String nombre, String apellido, Date fechaNacimiento, String sexo, String nacionalidad, Date fechaRegistro) {
         this.usuario = usuario;
@@ -49,6 +43,20 @@ public class Persona implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
         this.sexo = sexo;
         this.nacionalidad = nacionalidad;
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Persona(Usuario usuario, String nombre, String apellido, Date fechaNacimiento, String sexo, String nacionalidad, String estudio, String trabajo, String creencia, String sitioWeb, Date fechaRegistro) {
+        this.usuario = usuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.sexo = sexo;
+        this.nacionalidad = nacionalidad;
+        this.estudio = estudio;
+        this.trabajo = trabajo;
+        this.creencia = creencia;
+        this.sitioWeb = sitioWeb;
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -81,26 +89,6 @@ public class Persona implements Serializable {
 
     public String getNacionalidad() {
         return nacionalidad;
-    }
-
-    public String getReligion() {
-        return religion;
-    }
-
-    public TipoOrientacionSexual getOrientacionSexual() {
-        return orientacionSexual;
-    }
-
-    public Boolean getTienePareja() {
-        return tienePareja;
-    }
-
-    public String getEducación() {
-        return educación;
-    }
-
-    public String getProfesion() {
-        return profesion;
     }
 
     public List<Post> getPostReaccionados() {
@@ -151,26 +139,6 @@ public class Persona implements Serializable {
         this.nacionalidad = nacionalidad;
     }
 
-    public void setReligion(String religion) {
-        this.religion = religion;
-    }
-
-    public void setOrientacionSexual(TipoOrientacionSexual orientacionSexual) {
-        this.orientacionSexual = orientacionSexual;
-    }
-
-    public void setTienePareja(Boolean tienePareja) {
-        this.tienePareja = tienePareja;
-    }
-
-    public void setEducación(String educación) {
-        this.educación = educación;
-    }
-
-    public void setProfesion(String profesion) {
-        this.profesion = profesion;
-    }
-
     public void setPostReaccionados(List<Post> postReaccionados) {
         this.postReaccionados = postReaccionados;
     }
@@ -189,6 +157,30 @@ public class Persona implements Serializable {
 
     public void setSitioWeb(String sitioWeb) {
         this.sitioWeb = sitioWeb;
+    }
+
+    public String getEstudio() {
+        return estudio;
+    }
+
+    public void setEstudio(String estudio) {
+        this.estudio = estudio;
+    }
+
+    public String getTrabajo() {
+        return trabajo;
+    }
+
+    public void setTrabajo(String trabajo) {
+        this.trabajo = trabajo;
+    }
+
+    public String getCreencia() {
+        return creencia;
+    }
+
+    public void setCreencia(String creencia) {
+        this.creencia = creencia;
     }
 
     @Override

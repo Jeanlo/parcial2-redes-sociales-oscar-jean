@@ -20,7 +20,7 @@
                             <i class="fas fa-user-circle"></i> ${persona.usuario.usuario} &nbsp;|&nbsp;
                             <i class="fas fa-map-marker-alt"></i> ${persona.nacionalidad} &nbsp;|&nbsp;
                             <i class="fas fa-link"></i>
-                            <a href="https://manga-anime-empire.me">manga-anime-empire.me</a>
+                            <a href="https://${persona.sitioWeb}">${persona.sitioWeb}</a>
                             &nbsp;|&nbsp;
                             <i class="fas fa-calendar"></i> Se unió el ${persona.fechaRegistro}
                         </p>

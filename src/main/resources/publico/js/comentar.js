@@ -59,6 +59,8 @@ $(document).ready(function () {
                     "\t\t</button>\n" +
                     "\t</div>\n" +
                     "</div>");
+
+                $("#badge-cantidad-comentarios-" + id).html(valores[2]);
             }
         });
     });
