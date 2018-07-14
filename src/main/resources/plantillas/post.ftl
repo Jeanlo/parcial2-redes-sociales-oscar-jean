@@ -46,4 +46,43 @@
                   id="badge-me-indigna-${post.id?string['0']}">${post.cantidadMeIndigna}</span>
         </button>
     </div>
+    <div class="form-check-inline">
+        <textarea placeholder="Comenta..." name="comentario" class="comentario bg-dark form-control rounded-0 text-white" id="texto-${post.id?string['0']}"></textarea>
+        <button type="submit" class="btn btn-outline-warning rounded-0 btn-comentar" data-id="${post.id?string['0']}" data-usuario="${usuario.usuario}">Comenta</button>
+    </div>
+    <div class="comentarios" id="listaComentarios-${post.id?string['0']}">
+        <#list post.comentarios as comentario>
+            ${comentario.usuario.usuario} -
+            ${comentario.texto}
+            <br>
+            <button class="btn btn-reaccion-comentario" data-tipo="me-gusta" data-id="${comentario.id?string['0']}">
+                <i class="far fa-thumbs-up fa-lg" style="color: rgb(55, 175, 255)" title="Me gusta"></i>
+                <span class="badge badge-secondary"
+                      id="badge-me-gusta-comentario-${comentario.id?string['0']}">${comentario.cantidadMeGusta}</span>
+            </button>
+            <button class="btn btn-reaccion-comentario" data-tipo="me-encanta" data-id="${comentario.id?string['0']}">
+                <i class="far fa-grin-beam fa-lg" style="color: rgb(255, 94, 180)"
+                   title="Me encanta"></i>
+                <span class="badge badge-secondary"
+                      id="badge-me-encanta-comentario-${comentario.id?string['0']}">${comentario.cantidadMeEncanta}</span>
+            </button>
+            <button class="btn btn-reaccion-comentario" data-tipo="meh" data-id="${comentario.id?string['0']}">
+                <i class="far fa-meh fa-lg" style="color: rgb(255, 158, 41)" title="Meh"></i>
+                <span class="badge badge-secondary"
+                      id="badge-meh-comentario-${comentario.id?string['0']}">${comentario.cantidadMeh}</span>
+            </button>
+            <button class="btn btn-reaccion-comentario" data-tipo="me-disgusta" data-id="${comentario.id?string['0']}">
+                <i class="far fa-frown fa-lg" style="color: rgb(255, 75, 75)" title="Me disgusta"></i>
+                <span class="badge badge-secondary"
+                      id="badge-me-disgusta-comentario-${comentario.id?string['0']}">${comentario.cantidadMeDisgusta}</span>
+            </button>
+            <button class="btn btn-reaccion-comentario" data-tipo="me-indigna" data-id="${comentario.id?string['0']}">
+                <i class="fas fa-poo fa-lg" style="color: rgb(214, 135, 79)" title="Me indigna"></i>
+                <span class="badge badge-secondary"
+                      id="badge-me-indigna-comentario-${comentario.id?string['0']}">${comentario.cantidadMeIndigna}</span>
+            </button>
+        </#list>
+    </div>
+    <form action="/comentar" method="POST" id="agregaComentario"> </form>
 </div>
+
