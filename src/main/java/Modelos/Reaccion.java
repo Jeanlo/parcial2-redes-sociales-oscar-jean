@@ -17,10 +17,19 @@ public class Reaccion implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Comentario comentario;
+
     public Reaccion(String tipoReaccionElegida, Usuario usuario, Post post) {
         TipoReaccionElegida = tipoReaccionElegida;
         this.usuario = usuario;
         this.post = post;
+    }
+
+    public Reaccion(String tipoReaccionElegida, Usuario usuario, Comentario comentario) {
+        TipoReaccionElegida = tipoReaccionElegida;
+        this.usuario = usuario;
+        this.comentario = comentario;
     }
 
     public Usuario getUsuario() {

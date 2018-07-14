@@ -1,11 +1,5 @@
-import Modelos.Persona;
-import Modelos.Post;
-import Modelos.Reaccion;
-import Modelos.Usuario;
-import Servicios.ServicioPersona;
-import Servicios.ServicioPost;
-import Servicios.ServicioReaccion;
-import Servicios.ServicioUsuario;
+import Modelos.*;
+import Servicios.*;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -106,6 +100,14 @@ public class Enrutamiento {
                 post.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "meh"));
                 post.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-disgusta"));
                 post.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-indigna"));
+
+                for (Comentario comentario : post.getComentarios()) {
+                    comentario.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-gusta"));
+                    comentario.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-encanta"));
+                    comentario.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "meh"));
+                    comentario.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-disgusta"));
+                    comentario.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-indigna"));
+                }
             }
 
             List<Persona> amigos = new ArrayList<>();
@@ -287,6 +289,46 @@ public class Enrutamiento {
             return stringCantidades;
         });
 
+        post("/reaccionarComentario", (req, res) -> {
+            Long id = Long.parseLong(req.queryParams("id"));
+            String tipo = req.queryParams("tipo");
+
+            Comentario comentario = ServicioComentario.getInstancia().encontrar(id);
+
+            Reaccion reaccion = (Reaccion) ServicioReaccion.getInstancia().encontrarReaccionUsuarioComentario(id, usuario.getId());
+
+            if (reaccion == null) {
+                ServicioReaccion.getInstancia().crear(
+                        new Reaccion(
+                                tipo,
+                                usuario,
+                                comentario
+                        )
+                );
+            } else {
+                reaccion.setTipoReaccionElegida(tipo);
+                ServicioReaccion.getInstancia().editar(reaccion);
+            }
+
+
+            ServicioComentario.getInstancia().editar(comentario);
+
+            int[] cantidades = new int[5];
+            cantidades[0] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionComentario(id, "me-gusta"));
+            cantidades[1] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionComentario(id, "me-encanta"));
+            cantidades[2] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionComentario(id, "meh"));
+            cantidades[3] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionComentario(id, "me-disgusta"));
+            cantidades[4] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionComentario(id, "me-indigna"));
+
+            String stringCantidades = "";
+
+            for (int i = 0; i < 5; i++) {
+                stringCantidades += cantidades[i] + ",";
+            }
+
+            return stringCantidades;
+        });
+
         get("/amigos", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
@@ -341,10 +383,10 @@ public class Enrutamiento {
 
             Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
 
-            List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
+            List<Post> posts = ServicioPost.getInstancia().buscarPosts();
             List<Post> listaPostPropios = new ArrayList<>();
 
-            for (Post post : listaPost) {
+            for (Post post : posts) {
                 if (post.getUsuario().getUsuario() == usuario.getUsuario()) {
                     listaPostPropios.add(post);
                 } else {
@@ -362,6 +404,14 @@ public class Enrutamiento {
                 post.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "meh"));
                 post.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-disgusta"));
                 post.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-indigna"));
+
+                for (Comentario comentario : post.getComentarios()) {
+                    comentario.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-gusta"));
+                    comentario.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-encanta"));
+                    comentario.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "meh"));
+                    comentario.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-disgusta"));
+                    comentario.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-indigna"));
+                }
             }
 
             List<Persona> amigos = new ArrayList<>();
@@ -382,6 +432,24 @@ public class Enrutamiento {
 
             return writer;
         });
+
+        post("/comentar", (req, res) -> {
+
+            String comentario = req.queryParams("comentario");
+            Long post = Long.parseLong(req.queryParams("post"));
+
+            Post postAux = ServicioPost.getInstancia().encontrar(post);
+
+            Comentario com = new Comentario(comentario, postAux, usuario, null, new Date(System.currentTimeMillis()));
+            postAux.getComentarios().add(com);
+
+            ServicioComentario.getInstancia().crear(com);
+            ServicioPost.getInstancia().editar(postAux);
+
+            return com.getTexto();
+        });
+
+
     }
 
 

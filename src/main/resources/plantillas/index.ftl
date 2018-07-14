@@ -12,6 +12,8 @@
     </div>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <form action="/reaccionar" method="POST" id="form-reaccionar"></form>
+    <form action="/reaccionarComentario" method="POST" id="form-reaccionar-comentario"></form>
     <script src="/js/reaccionar.js"></script>
+    <script src="/js/comentar.js"></script>
     <#include "modal-bacanear.ftl">
 </@base.pagina>

@@ -37,6 +37,23 @@ public class ServicioReaccion  extends ServicioBaseDatos<Reaccion> {
         }
     }
 
+    public Object encontrarReaccionUsuarioComentario(long postID, long usuarioID) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery(
+                    "from Reaccion reaccion where reaccion.comentario.id = :reaccion_comentarioID and reaccion.usuario.id = :reaccion_usuarioID"
+            );
+            query.setParameter("reaccion_comentarioID", postID);
+            query.setParameter("reaccion_usuarioID", usuarioID);
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
     public int conseguirCantidadReaccionPost(long postID, String tipo) {
         EntityManager em = getEntityManager();
 
@@ -45,6 +62,26 @@ public class ServicioReaccion  extends ServicioBaseDatos<Reaccion> {
                     "select count(*) from Reaccion reaccion where reaccion.post.id = :reaccion_postID and reaccion.TipoReaccionElegida = :reaccion_tipo"
             );
             query.setParameter("reaccion_postID", postID);
+            query.setParameter("reaccion_tipo", tipo);
+
+            double cantidadReaccion = Double.parseDouble(query.getSingleResult().toString());
+
+            return (int)cantidadReaccion;
+        } catch (Exception ex) {
+            return 0;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int conseguirCantidadReaccionComentario(long comentarioID, String tipo) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery(
+                    "select count(*) from Reaccion reaccion where reaccion.comentario.id = :reaccion_comentarioID and reaccion.TipoReaccionElegida = :reaccion_tipo"
+            );
+            query.setParameter("reaccion_comentarioID", comentarioID);
             query.setParameter("reaccion_tipo", tipo);
 
             double cantidadReaccion = Double.parseDouble(query.getSingleResult().toString());
@@ -66,6 +103,25 @@ public class ServicioReaccion  extends ServicioBaseDatos<Reaccion> {
             );
 
             query.setParameter("reaccion_postID", postID);
+            query.setParameter("reaccion_tipo", tipo);
+
+            return query.getResultList();
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Reaccion> encontrarReaccionPorComentario(long comentarioID, String tipo) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery(
+                    "from Reaccion reaccion where reaccion.comentario.id = :reaccion_comentarioID and reaccion.TipoReaccionElegida = :reaccion_tipo"
+            );
+
+            query.setParameter("reaccion_comentarioID", comentarioID);
             query.setParameter("reaccion_tipo", tipo);
 
             return query.getResultList();
