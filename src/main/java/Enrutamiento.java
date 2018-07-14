@@ -434,7 +434,6 @@ public class Enrutamiento {
         });
 
         post("/comentar", (req, res) -> {
-
             String comentario = req.queryParams("comentario");
             Long post = Long.parseLong(req.queryParams("post"));
 
@@ -446,7 +445,7 @@ public class Enrutamiento {
             ServicioComentario.getInstancia().crear(com);
             ServicioPost.getInstancia().editar(postAux);
 
-            return com.getTexto();
+            return com.getId() + "," + com.getFecha().toString();
         });
 
 

@@ -1,11 +1,12 @@
 package Modelos;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
 @Entity
-public class Comentario implements Serializable  {
+public class Comentario implements Serializable {
     @Id
     @GeneratedValue
     private long id;
@@ -35,7 +36,7 @@ public class Comentario implements Serializable  {
     @Transient
     private List<Reaccion> meIndigna;
 
-    private Date Fecha;
+    private Date fecha;
 
     public long getCantidadMeGusta() {
         return this.meGusta == null ? 0 : this.meGusta.size();
@@ -56,7 +57,6 @@ public class Comentario implements Serializable  {
     public long getCantidadMeIndigna() {
         return this.meIndigna == null ? 0 : this.meIndigna.size();
     }
-
 
     public List<Reaccion> getMeGusta() {
         return meGusta;
@@ -103,7 +103,7 @@ public class Comentario implements Serializable  {
         this.post = post;
         this.usuario = usuario;
         this.reacciones = reacciones;
-        Fecha = fecha;
+        this.fecha = fecha;
     }
 
     public Post getPost() {
@@ -150,11 +150,11 @@ public class Comentario implements Serializable  {
     }
 
     public Date getFecha() {
-        return Fecha;
+        return fecha;
     }
 
     public void setFecha(Date fecha) {
-        Fecha = fecha;
+        this.fecha = fecha;
     }
 }
 
