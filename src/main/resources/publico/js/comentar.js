@@ -4,6 +4,7 @@ $(document).ready(function () {
         var id = $(this).data("id");
         var texto = $('#texto-' + id).val();
         var usuario = $(this).data("usuario");
+
         $.ajax({
             url: ruta,
             type: "POST",

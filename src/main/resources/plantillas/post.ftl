@@ -3,7 +3,7 @@
         <small class="card-title">
             <i class="fas fa-user"></i> ${post.usuario.usuario}
             &nbsp;|&nbsp;
-            <i class="fas fa-calendar-alt"></i> ${post.fecha}
+            <i class="fas fa-calendar-alt"></i> ${post.fecha?string.iso}
             <#if post.personaEtiquetada??>
                 &nbsp;|&nbsp;
                 <i class="fas fa-tag"></i>
@@ -65,7 +65,7 @@
                     <strong>
                         <i class="fas fa-user-circle"></i> ${comentario.usuario.usuario}
                         &nbsp;|&nbsp;
-                        <i class="fas fa-calendar-alt"></i> ${comentario.fecha}
+                        <i class="fas fa-calendar-alt"></i> ${comentario.fecha?string.iso}
                     </strong>
                 </small>
                 <p class="my-2">${comentario.texto}</p>
