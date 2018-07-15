@@ -116,6 +116,8 @@ public class Enrutamiento {
                 amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(persona.getUsuario().getUsuario()));
             }
 
+            usuario.setNotificaciones(ServicioNotificacion.getInstancia().buscarNotificacionesNoLeidas(usuario.getUsuario()));
+
             atributos.put("usuario", usuario);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("listaPost", listaPost);
@@ -197,7 +199,7 @@ public class Enrutamiento {
                 Notificacion notificacion = new Notificacion(
                         personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un post.",
                         usuario, persona.getUsuario(), new java.util.Date(System.currentTimeMillis()),
-                        "Etiquetacion");
+                        "Etiquetacion", false);
 
                 ServicioNotificacion.getInstancia().crear(notificacion);
 
@@ -253,9 +255,19 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/subir-privilegios.ftl");
 
+            List<Persona> amigos = new ArrayList<>();
+
+            for (Persona persona : usuario.getAmigos()) {
+                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(persona.getUsuario().getUsuario()));
+            }
+
+
+            usuario.setNotificaciones(ServicioNotificacion.getInstancia().buscarNotificacionesNoLeidas(usuario.getUsuario()));
+
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("usuarios", ServicioUsuario.getInstancia().listar());
             atributos.put("usuario", usuario);
+            atributos.put("amigos", amigos);
             template.process(atributos, writer);
 
             return writer;
@@ -370,9 +382,19 @@ public class Enrutamiento {
                 }
             }
 
+            List<Persona> amigos = new ArrayList<>();
+
+            for (Persona per : usuario.getAmigos()) {
+                amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(per.getUsuario().getUsuario()));
+            }
+
+
+            usuario.setNotificaciones(ServicioNotificacion.getInstancia().buscarNotificacionesNoLeidas(usuario.getUsuario()));
+
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("usuariosSugeridos", usuariosSugeridos);
             atributos.put("usuario", usuario);
+            atributos.put("amigos", amigos);
             template.process(atributos, writer);
 
             return writer;
@@ -388,7 +410,7 @@ public class Enrutamiento {
             Notificacion notificacion = new Notificacion(
                     personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " quiere agregarte como amigo.",
                     usuario, persona.getUsuario(), new java.util.Date(System.currentTimeMillis()),
-                    "Solicitud amistad");
+                    "Solicitud amistad", false);
 
             ServicioNotificacion.getInstancia().crear(notificacion);
 
@@ -402,8 +424,24 @@ public class Enrutamiento {
             return null;
         });
 
-        post("/aceptarAmigo/:usuario", (req, res) -> {
+        post("/verPerfil/:notificacion", (req, res) -> {
+
+            Long notificacion = Long.parseLong(req.params("notificacion"));
+
+            Notificacion notificacionAux = ServicioNotificacion.getInstancia().encontrar(notificacion);
+            notificacionAux.setLeido(true);
+
+            ServicioNotificacion.getInstancia().editar(notificacionAux);
+
+            res.redirect("/perfil/" + usuario.getUsuario());
+
+            return null;
+        });
+
+        post("/aceptarAmigo/:usuario/:notificacion", (req, res) -> {
             String username = req.params("usuario");
+
+            Long notificacion = Long.parseLong(req.params("notificacion"));
 
             Usuario usuAmigo = (Usuario) ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(username);
 
@@ -416,6 +454,10 @@ public class Enrutamiento {
 
             ServicioUsuario.getInstancia().editar(usuario);
             ServicioUsuario.getInstancia().editar(usuAmigo);
+
+            Notificacion notificacionAux = ServicioNotificacion.getInstancia().encontrar(notificacion);
+            notificacionAux.setLeido(true);
+            ServicioNotificacion.getInstancia().editar(notificacionAux);
 
             res.redirect("/");
 
@@ -466,6 +508,9 @@ public class Enrutamiento {
             for (Persona per : usuario.getAmigos()) {
                 amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(per.getUsuario().getUsuario()));
             }
+
+
+            usuario.setNotificaciones(ServicioNotificacion.getInstancia().buscarNotificacionesNoLeidas(usuario.getUsuario()));
 
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("usuarios", ServicioUsuario.getInstancia().listar());

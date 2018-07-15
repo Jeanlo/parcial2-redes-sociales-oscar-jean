@@ -19,4 +19,14 @@ public class ServicioNotificacion extends ServicioBaseDatos<Notificacion> {
         }
         return instancia;
     }
+
+    public List<Notificacion> buscarNotificacionesNoLeidas(String usuario) {
+        EntityManager em = ServicioPost.getInstancia().getEntityManager();
+
+        Query query = em.createQuery("select a from Notificacion a where a.hasta.usuario =:usuario_username and a.leido = false order by a.id desc");
+        query.setParameter("usuario_username", usuario);
+        List<Notificacion> lista = query.getResultList();
+
+        return lista;
+    }
 }

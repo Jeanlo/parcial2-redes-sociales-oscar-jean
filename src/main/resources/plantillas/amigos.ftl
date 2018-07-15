@@ -19,7 +19,7 @@
                      </div>
                 </#list>
                 <br>
-                <#if usuariosSugeridos?size gt 0>
+                <#if usuariosSugeridos?size gt 1>
                     <h5 class="text-white text-center">Agregar amigos</h5>
                 </#if>
                 <#list usuariosSugeridos as usua>
@@ -43,4 +43,8 @@
             </div>
         </div>
     </div>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/comentar.js"></script>
+    <#include "modal-notificaciones.ftl">
+    <#include "modal-bacanear.ftl">
 </@base.pagina>
