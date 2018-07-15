@@ -22,7 +22,7 @@
                             <i class="fas fa-link"></i>
                             <a href="https://${persona.sitioWeb}" target="_blank">${persona.sitioWeb}</a>
                             &nbsp;|&nbsp;
-                            <i class="fas fa-calendar"></i> Se unió el ${persona.fechaRegistro}
+                            <i class="fas fa-calendar"></i> Se unió el ${persona.fechaRegistro?date}
                         </p>
                     </div>
                 </div>

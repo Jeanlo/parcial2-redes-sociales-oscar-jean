@@ -5,15 +5,14 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Notificaciones</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" class="text-white">
-              <i class="fas fa-times-circle"></i>
-            </span>
+                    <span aria-hidden="true" class="text-white">
+                      <i class="fas fa-times-circle"></i>
+                    </span>
                 </button>
             </div>
             <div class="modal-body p-0">
                 <#if usuario.notificaciones?size gt 0>
                     <#list usuario.notificaciones as notificacion>
-                    <#if notificacion.leido == false>
                         <#if notificacion.tipoNotificacion?contains("Etiquetacion")>
                         <div class="alert alert-dark rounded-0 m-0">
                             <small>
@@ -29,13 +28,13 @@
                             <small>
                                 <i class="fas fa-calendar-alt"></i> ${notificacion.fecha}<br>
                                 ${notificacion.texto}
-                                <form action="/aceptarAmigo/${notificacion.desde.usuario}/${notificacion.id?string['0']}" method="POST">
+                                <form action="/aceptarAmigo/${notificacion.desde.usuario}/${notificacion.id?string['0']}"
+                                      method="POST">
                                     <button class="btn btn-outline-dark" type="submit">Aceptar amigo</button>
                                 </form>
                             </small>
                         </div>
                         </#if>
-                    </#if>
                     </#list>
                 <#else>
                     <div class="alert alert-dark rounded-0 m-0">

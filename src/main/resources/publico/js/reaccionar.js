@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".btn-reaccion").unbind().click(function () {
+    $(".btn-reaccion").unbind().on("click", function () {
         var ruta = $("#form-reaccionar").attr("action");
         var id = $(this).data("id");
         var tipo = $(this).data("tipo");
@@ -23,7 +23,7 @@ $(document).ready(function () {
         });
     });
 
-    $(".btn-reaccion-comentario").unbind().click(function () {
+    $(document).unbind().on("click", ".btn-reaccion-comentario", function () {
         var ruta = $("#form-reaccionar-comentario").attr("action");
         var id = $(this).data("id");
         var tipo = $(this).data("tipo");
