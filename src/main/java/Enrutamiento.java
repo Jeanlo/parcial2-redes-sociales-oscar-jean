@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Enrutamiento {
     static Usuario usuario = null;
@@ -23,6 +24,8 @@ public class Enrutamiento {
         configuration.setClassForTemplateLoading(Main.class, "/");
 
         staticFiles.location("/publico");
+
+        enableDebugScreen();
 
         before("/", (req, res) -> {
             if (req.cookie("sesionSemanal") != null) {
