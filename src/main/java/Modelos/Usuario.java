@@ -13,7 +13,7 @@ public class Usuario implements Serializable {
     private boolean administrator;
     private String sesion;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Persona> amigos;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

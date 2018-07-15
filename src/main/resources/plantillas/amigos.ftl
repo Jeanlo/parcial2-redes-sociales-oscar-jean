@@ -19,7 +19,7 @@
                      </div>
                 </#list>
                 <br>
-                <#if usuariosSugeridos?size gt 0>
+                <#if usuariosSugeridos?size gt 1>
                     <h5 class="text-white text-center">Agregar amigos</h5>
                 </#if>
                 <#list usuariosSugeridos as usua>
