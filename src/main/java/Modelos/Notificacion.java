@@ -21,15 +21,26 @@ public class Notificacion implements Serializable {
 
     private String tipoNotificacion;
 
+    private Boolean leido;
+
     public Notificacion() {
     }
 
-    public Notificacion(String texto, Usuario desde, Usuario hasta, Date fecha, String tipoNotificacion) {
+    public Notificacion(String texto, Usuario desde, Usuario hasta, Date fecha, String tipoNotificacion, Boolean leido) {
         this.texto = texto;
         this.desde = desde;
         this.hasta = hasta;
         this.fecha = fecha;
         this.tipoNotificacion = tipoNotificacion;
+        this.leido = leido;
+    }
+
+    public Boolean getLeido() {
+        return leido;
+    }
+
+    public void setLeido(Boolean leido) {
+        this.leido = leido;
     }
 
     public long getId() {

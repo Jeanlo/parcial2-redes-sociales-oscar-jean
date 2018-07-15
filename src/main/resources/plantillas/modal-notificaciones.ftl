@@ -13,13 +13,15 @@
             <div class="modal-body p-0">
                 <#if usuario.notificaciones?size gt 0>
                     <#list usuario.notificaciones as notificacion>
+                    <#if notificacion.leido == false>
                         <#if notificacion.tipoNotificacion?contains("Etiquetacion")>
                         <div class="alert alert-dark rounded-0 m-0">
                             <small>
                                 <i class="fas fa-calendar-alt"></i> ${notificacion.fecha}<br>
-                                <a href="/perfil/${usuario.usuario}" class="alert-link">
-                                    ${notificacion.texto}
-                                </a>
+                                ${notificacion.texto}
+                                <form action="/verPerfil/${notificacion.id?string['0']}" method="POST">
+                                    <button class="btn btn-outline-dark" type="submit">Ver perfil</button>
+                                </form>
                             </small>
                         </div>
                         <#else>
@@ -27,12 +29,13 @@
                             <small>
                                 <i class="fas fa-calendar-alt"></i> ${notificacion.fecha}<br>
                                 ${notificacion.texto}
-                                <form action="/aceptarAmigo/${notificacion.desde.usuario}" method="POST">
+                                <form action="/aceptarAmigo/${notificacion.desde.usuario}/${notificacion.id?string['0']}" method="POST">
                                     <button class="btn btn-outline-dark" type="submit">Aceptar amigo</button>
                                 </form>
                             </small>
                         </div>
                         </#if>
+                    </#if>
                     </#list>
                 <#else>
                     <div class="alert alert-dark rounded-0 m-0">
