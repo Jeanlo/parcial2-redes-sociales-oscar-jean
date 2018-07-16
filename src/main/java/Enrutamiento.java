@@ -6,7 +6,14 @@ import freemarker.template.Version;
 import org.jasypt.util.text.StrongTextEncryptor;
 import spark.Session;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +30,10 @@ public class Enrutamiento {
         final Configuration configuration = new Configuration(new Version(2, 3, 23));
         configuration.setClassForTemplateLoading(Main.class, "/");
 
+        File uploadDir = new File("upload");
+        uploadDir.mkdir();
+
+        staticFiles.externalLocation("upload");
         staticFiles.location("/publico");
 
         enableDebugScreen();
@@ -191,8 +202,19 @@ public class Enrutamiento {
         post("/bacanear", (req, res) -> {
             java.sql.Date tiempoAhora = new Date(System.currentTimeMillis());
 
+            Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
+
+            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
             String texto = req.queryParams("texto");
             String etiquetado = req.queryParams("etiquetado");
+
+            try (InputStream input = req.raw().getPart("imagen").getInputStream()) {
+                Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            Imagen imagen = new Imagen(tempFile.getFileName().toString(), texto, null, null);
+            ServicioImagen.getInstancia().crear(imagen);
 
             if (!etiquetado.isEmpty()) {
                 Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado);
@@ -210,15 +232,18 @@ public class Enrutamiento {
 
                 user.getNotificaciones().add(notificacion);
                 ServicioUsuario.getInstancia().editar(user);
-                Post post = new Post(texto, null, usuario, null, persona, null, tiempoAhora);
+                Post post = new Post(texto, imagen, usuario, null, persona, null, tiempoAhora);
                 ServicioPost.getInstancia().crear(post);
             } else {
-                Post post = new Post(texto, null, usuario, null, null, null, tiempoAhora);
+                Post post = new Post(texto, imagen, usuario, null, null, null, tiempoAhora);
                 ServicioPost.getInstancia().crear(post);
             }
 
+
             res.redirect("/");
 
+
+//            return "<h1>You uploaded this image:<h1><img src='" +  + "'>";
             return null;
         });
 
@@ -263,7 +288,6 @@ public class Enrutamiento {
             for (Persona persona : usuario.getAmigos()) {
                 amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(persona.getUsuario().getUsuario()));
             }
-
 
             usuario.setNotificaciones(ServicioNotificacion.getInstancia().buscarNotificacionesNoLeidas(usuario.getUsuario()));
 
@@ -554,5 +578,14 @@ public class Enrutamiento {
         usuario = usuarioRestaurado;
 
         return usuarioRestaurado;
+    }
+
+    private static String getFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 }

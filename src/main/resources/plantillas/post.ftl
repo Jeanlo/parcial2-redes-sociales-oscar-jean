@@ -13,6 +13,9 @@
     </div>
     <div class="card-body">
         <p class="card-text">
+        <#if post.imagen??>
+            <img src="/${post.imagen.url}" class="imagen mb-2" height="360" title="${post.imagen.descripcion}" alt="${post.imagen.descripcion}">
+        </#if>
         ${post.texto}
         </p>
     </div>
@@ -45,7 +48,8 @@
         </button>
         <button type="button" class="btn btn-sm btn-outline-light float-right btn-mostrar-comentarios"
                 data-id="${post.id?string['0']}">
-            Comentarios <span class="badge badge-secondary" id="badge-cantidad-comentarios-${post.id?string['0']}">${post.comentarios?size}</span>
+            Comentarios <span class="badge badge-secondary"
+                              id="badge-cantidad-comentarios-${post.id?string['0']}">${post.comentarios?size}</span>
         </button>
     </div>
 
