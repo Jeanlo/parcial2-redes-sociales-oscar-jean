@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="/bacanear" id="form-bacanear">
+                <form method="POST" action="/bacanear" id="form-bacanear" enctype='multipart/form-data'>
                     <div class="form-group">
                         <label for="contenido">Contenido</label>
                         <textarea name="texto" class="form-control rounded-0"></textarea>
