@@ -12,16 +12,16 @@ public class Imagen implements Serializable {
     private String url;
     private String descripcion;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Persona> personasEtiquetadas;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Persona personaEtiquetada;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Comentario> comentarios;
 
-    public Imagen(String url, String descripcion, List<Persona> personasEtiquetadas, List<Comentario> comentarios) {
+    public Imagen(String url, String descripcion, Persona personaEtiquetada, List<Comentario> comentarios) {
         this.url = url;
         this.descripcion = descripcion;
-        this.personasEtiquetadas = personasEtiquetadas;
+        this.personaEtiquetada = personaEtiquetada;
         this.comentarios = comentarios;
     }
 
@@ -52,12 +52,12 @@ public class Imagen implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<Persona> getPersonasEtiquetadas() {
-        return personasEtiquetadas;
+    public Persona getPersonaEtiquetada() {
+        return personaEtiquetada;
     }
 
-    public void setPersonasEtiquetadas(List<Persona> personasEtiquetadas) {
-        this.personasEtiquetadas = personasEtiquetadas;
+    public void setPersonaEtiquetada(Persona personaEtiquetada) {
+        this.personaEtiquetada = personaEtiquetada;
     }
 
     public List<Comentario> getComentarios() {

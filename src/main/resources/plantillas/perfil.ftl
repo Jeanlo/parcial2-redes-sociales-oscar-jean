@@ -29,6 +29,9 @@
                  <#list listaPost as post>
                      <#include "post.ftl">
                  </#list>
+                 <#list listaAlbum as album>
+                     <#include "album.ftl">
+                 </#list>
             </div>
         </div>
     </div>

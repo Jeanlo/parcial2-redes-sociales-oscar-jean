@@ -17,17 +17,49 @@ public class Album implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Usuario usuario;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Imagen> imagenes;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Imagen imagen1;
 
-    private String desripcion;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Imagen imagen2;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Imagen imagen3;
+
+    private String descripcion;
     private Date Fecha;
 
-    public Album(Usuario usuario, List<Imagen> imagenes, String desripcion, Date fecha) {
+    public Album(Usuario usuario, Imagen imagen1, Imagen imagen2, Imagen imagen3, String descripcion, Date fecha) {
         this.usuario = usuario;
-        this.imagenes = imagenes;
-        this.desripcion = desripcion;
+        this.imagen1 = imagen1;
+        this.imagen2 = imagen2;
+        this.imagen3 = imagen3;
+        this.descripcion = descripcion;
         Fecha = fecha;
+    }
+
+    public Imagen getImagen1() {
+        return imagen1;
+    }
+
+    public void setImagen1(Imagen imagen1) {
+        this.imagen1 = imagen1;
+    }
+
+    public Imagen getImagen2() {
+        return imagen2;
+    }
+
+    public void setImagen2(Imagen imagen2) {
+        this.imagen2 = imagen2;
+    }
+
+    public Imagen getImagen3() {
+        return imagen3;
+    }
+
+    public void setImagen3(Imagen imagen3) {
+        this.imagen3 = imagen3;
     }
 
     public long getId() {
@@ -46,20 +78,12 @@ public class Album implements Serializable {
         this.usuario = usuario;
     }
 
-    public List<Imagen> getImagenes() {
-        return imagenes;
-    }
-
-    public void setImagenes(List<Imagen> imagenes) {
-        this.imagenes = imagenes;
-    }
-
     public String getDesripcion() {
-        return desripcion;
+        return descripcion;
     }
 
     public void setDesripcion(String desripcion) {
-        this.desripcion = desripcion;
+        this.descripcion = desripcion;
     }
 
     public Date getFecha() {

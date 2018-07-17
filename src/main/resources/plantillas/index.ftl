@@ -7,6 +7,10 @@
                 <#list listaPost as post>
                     <#include "post.ftl">
                 </#list>
+                <#list listaAlbum as album>
+                    <#include "album.ftl">
+                </#list>
+
             </div>
         </div>
     </div>
@@ -17,4 +21,5 @@
     <script src="/js/comentar.js"></script>
     <#include "modal-notificaciones.ftl">
     <#include "modal-bacanear.ftl">
+    <#include "modal-album.ftl">
 </@base.pagina>

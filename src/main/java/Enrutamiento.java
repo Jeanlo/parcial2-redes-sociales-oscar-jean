@@ -107,6 +107,7 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
             List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
+            List<Album> listaAlbum = ServicioAlbum.getInstancia().buscarAlbumes();
 
             for (Post post : listaPost) {
                 post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
@@ -135,6 +136,7 @@ public class Enrutamiento {
             atributos.put("usuario", usuario);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("listaPost", listaPost);
+            atributos.put("listaAlbum", listaAlbum);
             atributos.put("amigos", amigos);
             template.process(atributos, writer);
 
@@ -208,13 +210,18 @@ public class Enrutamiento {
 
             String texto = req.queryParams("texto");
             String etiquetado = req.queryParams("etiquetado");
+            Imagen imagen;
 
             try (InputStream input = req.raw().getPart("imagen").getInputStream()) {
                 Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            Imagen imagen = new Imagen(tempFile.getFileName().toString(), texto, null, null);
-            ServicioImagen.getInstancia().crear(imagen);
+            if (!req.raw().getPart("imagen").getSubmittedFileName().isEmpty()) {
+                imagen = new Imagen(tempFile.getFileName().toString(), texto, null, null);
+                ServicioImagen.getInstancia().crear(imagen);
+            } else {
+                imagen = null;
+            }
 
             if (!etiquetado.isEmpty()) {
                 Persona persona = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado);
@@ -239,11 +246,120 @@ public class Enrutamiento {
                 ServicioPost.getInstancia().crear(post);
             }
 
+            res.redirect("/");
+
+            return null;
+        });
+
+        post("/crear-album", (req, res) -> {
+            java.sql.Date tiempoAhora = new Date(System.currentTimeMillis());
+
+            Path tempFile1 = Files.createTempFile(uploadDir.toPath(), "", "");
+            Path tempFile2 = Files.createTempFile(uploadDir.toPath(), "", "");
+            Path tempFile3 = Files.createTempFile(uploadDir.toPath(), "", "");
+
+            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
+            String descripcion = req.queryParams("descripcion");
+            String descripcion1 = req.queryParams("descripcion1");
+            String descripcion2 = req.queryParams("descripcion2");
+            String descripcion3 = req.queryParams("descripcion3");
+
+            String etiquetado1 = req.queryParams("etiquetado1");
+            String etiquetado2 = req.queryParams("etiquetado2");
+            String etiquetado3 = req.queryParams("etiquetado3");
+
+            Imagen imagen1;
+            Imagen imagen2;
+            Imagen imagen3;
+
+            try (InputStream input = req.raw().getPart("imagen1").getInputStream()) {
+                Files.copy(input, tempFile1, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            if (!req.raw().getPart("imagen1").getSubmittedFileName().isEmpty()) {
+                imagen1 = new Imagen(tempFile1.getFileName().toString(), descripcion1, null, null);
+            } else {
+                imagen1 = null;
+            }
+
+            try (InputStream input = req.raw().getPart("imagen2").getInputStream()) {
+                Files.copy(input, tempFile2, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            if (!req.raw().getPart("imagen2").getSubmittedFileName().isEmpty()) {
+                imagen2 = new Imagen(tempFile2.getFileName().toString(), descripcion2, null, null);
+            } else {
+                imagen2 = null;
+            }
+
+            try (InputStream input = req.raw().getPart("imagen3").getInputStream()) {
+                Files.copy(input, tempFile3, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            if (!req.raw().getPart("imagen3").getSubmittedFileName().isEmpty()) {
+                imagen3 = new Imagen(tempFile3.getFileName().toString(), descripcion3, null, null);
+            } else {
+                imagen3 = null;
+            }
+
+            if (!etiquetado1.isEmpty() && !etiquetado2.isEmpty() && !etiquetado3.isEmpty()) {
+                Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
+
+                Persona persona1 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado1);
+                imagen1.setPersonaEtiquetada(persona1);
+                ServicioImagen.getInstancia().crear(imagen1);
+
+                Persona persona2 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado2);
+                imagen2.setPersonaEtiquetada(persona2);
+                ServicioImagen.getInstancia().crear(imagen2);
+
+                Persona persona3 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado3);
+                imagen3.setPersonaEtiquetada(persona3);
+                ServicioImagen.getInstancia().crear(imagen3);
+
+                Notificacion notificacion1 = new Notificacion(
+                        personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un album.",
+                        usuario, persona1.getUsuario(), new java.util.Date(System.currentTimeMillis()),
+                        "Etiquetacion", false);
+
+                ServicioNotificacion.getInstancia().crear(notificacion1);
+
+                Notificacion notificacion2 = new Notificacion(
+                        personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un album.",
+                        usuario, persona2.getUsuario(), new java.util.Date(System.currentTimeMillis()),
+                        "Etiquetacion", false);
+
+                ServicioNotificacion.getInstancia().crear(notificacion2);
+
+                Notificacion notificacion3 = new Notificacion(
+                        personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un album.",
+                        usuario, persona3.getUsuario(), new java.util.Date(System.currentTimeMillis()),
+                        "Etiquetacion", false);
+
+                ServicioNotificacion.getInstancia().crear(notificacion3);
+
+                Usuario user1 = persona1.getUsuario();
+                user1.getNotificaciones().add(notificacion1);
+                ServicioUsuario.getInstancia().editar(user1);
+
+                Usuario user2 = persona2.getUsuario();
+                user2.getNotificaciones().add(notificacion2);
+                ServicioUsuario.getInstancia().editar(user2);
+
+                Usuario user3 = persona3.getUsuario();
+                user3.getNotificaciones().add(notificacion3);
+                ServicioUsuario.getInstancia().editar(user3);
+
+                Album album = new Album(usuario, imagen1, imagen2, imagen3, descripcion, tiempoAhora);
+                ServicioAlbum.getInstancia().crear(album);
+            } else {
+                Album album = new Album(usuario, imagen1, imagen2, imagen3, descripcion, tiempoAhora);
+                ServicioAlbum.getInstancia().crear(album);
+            }
 
             res.redirect("/");
 
-
-//            return "<h1>You uploaded this image:<h1><img src='" +  + "'>";
             return null;
         });
 
@@ -502,6 +618,9 @@ public class Enrutamiento {
             List<Post> posts = ServicioPost.getInstancia().buscarPosts();
             List<Post> listaPostPropios = new ArrayList<>();
 
+            List<Album> albumes = ServicioAlbum.getInstancia().buscarAlbumes();
+            List<Album> listaAlbumesPropios = new ArrayList<>();
+
             for (Post post : posts) {
                 if (post.getUsuario().getUsuario() == usuario.getUsuario()) {
                     listaPostPropios.add(post);
@@ -509,6 +628,18 @@ public class Enrutamiento {
                     if (post.getPersonaEtiquetada() != null) {
                         if (post.getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario()) {
                             listaPostPropios.add(post);
+                        }
+                    }
+                }
+            }
+
+            for (Album album : albumes) {
+                if (album.getUsuario().getUsuario() == usuario.getUsuario()) {
+                    listaAlbumesPropios.add(album);
+                } else {
+                    if (album.getImagen1().getPersonaEtiquetada() != null || album.getImagen2().getPersonaEtiquetada() != null || album.getImagen3().getPersonaEtiquetada() != null) {
+                        if (album.getImagen1().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario() || album.getImagen2().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario() || album.getImagen3().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario()) {
+                            listaAlbumesPropios.add(album);
                         }
                     }
                 }
@@ -536,7 +667,6 @@ public class Enrutamiento {
                 amigos.add((Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(per.getUsuario().getUsuario()));
             }
 
-
             usuario.setNotificaciones(ServicioNotificacion.getInstancia().buscarNotificacionesNoLeidas(usuario.getUsuario()));
 
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
@@ -545,6 +675,7 @@ public class Enrutamiento {
             atributos.put("nombreUsuario", nombreUsuario);
             atributos.put("persona", persona);
             atributos.put("listaPost", listaPostPropios);
+            atributos.put("listaAlbum", listaAlbumesPropios);
             atributos.put("amigos", amigos);
 
             template.process(atributos, writer);
