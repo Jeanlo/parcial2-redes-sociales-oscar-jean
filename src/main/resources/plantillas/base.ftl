@@ -74,6 +74,11 @@
                                 <i class="fas fa-feather-alt"></i> Bacanear
                             </button>
                             &nbsp;&nbsp;
+                            <button class="btn btn-outline-light my-2 my-sm-0" data-toggle="modal"
+                                    data-target="#modal-album" type="button">
+                                <i class="fas fa-images"></i> Crear album
+                            </button>
+                            &nbsp;&nbsp;
                             <a href="/salir" class="btn btn-outline-danger text-white my-2 my-sm-0" type="submit">
                                 <i class="fas fa-sign-out-alt"></i> Salir
                             </a>

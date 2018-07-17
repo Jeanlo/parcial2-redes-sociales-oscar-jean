@@ -15,6 +15,7 @@
         <p class="card-text">
         <#if post.imagen??>
             <img src="/${post.imagen.url}" class="imagen mb-2" height="360" title="${post.imagen.descripcion}" alt="${post.imagen.descripcion}">
+        <br>
         </#if>
         ${post.texto}
         </p>

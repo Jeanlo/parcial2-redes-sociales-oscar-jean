@@ -63,6 +63,10 @@ label.error {
     width: 750px;
 }
 
+fieldset .select2 {
+    width: 715px;
+}
+
 .imagen {
     box-shadow: 0 3px 3px rgba(34, 34, 34, 1);
 }
