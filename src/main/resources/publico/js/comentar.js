@@ -65,4 +65,39 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(".btn-comentar-imagen").unbind().click(function () {
+        var ruta = $("#agregaComentarioImagen").attr("action");
+        var id = $(this).data("id");
+        var texto = $('#texto-imagen-' + id).val();
+        var usuario = $(this).data("usuario");
+
+        $.ajax({
+            url: ruta,
+            type: "POST",
+            data: {
+                imagen: id,
+                comentario: texto,
+                usuario: usuario
+            },
+            success: function (datos) {
+                $('#texto-imagen-' + id).val("");
+
+                var valores = datos.split(",");
+
+                $('#listaComentariosImagen-' + id).append("<div class=\"alert alert-secondary rounded-0 m-0\">\n" +
+                    "\t<small>\n" +
+                    "\t\t<strong>\n" +
+                    "\t\t\t<i class=\"fas fa-user-circle\"></i> " + usuario + "\n" +
+                    "\t\t\t&nbsp;|&nbsp;\n" +
+                    "\t\t\t<i class=\"fas fa-calendar-alt\"></i> " + valores[1] + "\n" +
+                    "\t\t</strong>\n" +
+                    "\t</small>\n" +
+                    "\t<p class=\"my-2\">" + texto + "</p>\n" +
+                    "</div>");
+
+                $("#badge-cantidad-comentarios-imagen-" + id).html(valores[2]);
+            }
+        });
+    });
 });

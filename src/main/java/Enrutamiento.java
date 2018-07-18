@@ -106,8 +106,34 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
-            List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
-            List<Album> listaAlbum = ServicioAlbum.getInstancia().buscarAlbumes();
+            List<Post> posts = ServicioPost.getInstancia().buscarPosts();
+            List<Post> listaPost = new ArrayList<>();
+            List<Album> albumes = ServicioAlbum.getInstancia().buscarAlbumes();
+            List<Album> listaAlbum = new ArrayList<>();
+
+            for (Post post : posts) {
+                for (Persona amigo : usuario.getAmigos()) {
+                    if (post.getUsuario().getUsuario().equals(amigo.getUsuario().getUsuario())) {
+                        listaPost.add(post);
+                    }
+                }
+
+                if (post.getUsuario().getUsuario().equals(usuario.getUsuario())) {
+                    listaPost.add(post);
+                }
+            }
+
+            for (Album album : albumes) {
+                for (Persona amigo : usuario.getAmigos()) {
+                    if (album.getUsuario().getUsuario().equals(amigo.getUsuario().getUsuario())) {
+                        listaAlbum.add(album);
+                    }
+                }
+
+                if (album.getUsuario().getUsuario().equals(usuario.getUsuario())) {
+                    listaAlbum.add(album);
+                }
+            }
 
             for (Post post : listaPost) {
                 post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
@@ -752,6 +778,21 @@ public class Enrutamiento {
             ServicioPost.getInstancia().editar(postAux);
 
             return com.getId() + "," + com.getFecha().toString() + "," + postAux.getComentarios().size();
+        });
+
+        post("/comentarImagen", (req, res) -> {
+            String comentario = req.queryParams("comentario");
+            Long imagen = Long.parseLong(req.queryParams("imagen"));
+
+            Imagen imagenAux = ServicioImagen.getInstancia().encontrar(imagen);
+
+            Comentario com = new Comentario(comentario, imagenAux, usuario, new Date(System.currentTimeMillis()));
+            imagenAux.getComentarios().add(com);
+
+            ServicioComentario.getInstancia().crear(com);
+            ServicioImagen.getInstancia().editar(imagenAux);
+
+            return com.getId() + "," + com.getFecha().toString() + "," + imagenAux.getComentarios().size();
         });
     }
 
