@@ -451,6 +451,7 @@ public class Enrutamiento {
             String trabajo = req.queryParams("trabajo");
             String creencia = req.queryParams("creencia");
             String sitioWeb = req.queryParams("sitio-web");
+            String emocion = req.queryParams("emocion");
 
             String sfechaNacimiento = req.queryParams("fecha-nacimiento");
             System.out.println(sfechaNacimiento);
@@ -459,7 +460,7 @@ public class Enrutamiento {
 
             long id = ServicioUsuario.getInstancia().listar().get(ServicioUsuario.getInstancia().listar().size() - 1).getId() + 1;
 
-            Usuario userNuevo = new Usuario(id, username, contrasena, false, null);
+            Usuario userNuevo = new Usuario(id, username, contrasena, emocion, false, null);
             ServicioUsuario.getInstancia().crear(userNuevo);
 
             Persona personaNueva = new Persona(userNuevo, nombre, apellido, fechaNacimiento, sexo, nacionalidad, estudio, trabajo, creencia, sitioWeb, new Date(System.currentTimeMillis()));

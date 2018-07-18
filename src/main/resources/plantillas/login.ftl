@@ -166,8 +166,26 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" name="sitio-web"
-                                                   placeholder="Mi sitio web es..."
-                                            >
+                                                   placeholder="Mi sitio web es...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row form-mas">
+                                    <div class="form-group">
+                                        <label for="emocion">Emoción</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="far fa-grin-wink"></i>
+                                                </div>
+                                            </div>
+                                            <select name="emocion" class="form-control custom-select">
+                                                <option value="😃">😃</option>
+                                                <option value="😱">😱</option>
+                                                <option value="😐">😐</option>
+                                                <option value="😡">😡</option>
+                                                <option value="😳">😳</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
 <div class="center-text" style="text-align:center;">
     <input type="text" name="usuario" id="usuario-affectiva" class="form-control" placeholder="usuario">
+    <br>
     <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
         <button id="start" type="button" class="btn btn-light btn-sm" onclick="onStart()">Capturar emoción</button>
         <button id="stop" type="button" class="btn btn-outline-light btm-sm" onclick="onStop()">Loguearse</button>
