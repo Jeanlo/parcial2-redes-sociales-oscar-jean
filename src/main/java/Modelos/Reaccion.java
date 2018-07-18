@@ -18,6 +18,9 @@ public class Reaccion implements Serializable {
     private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    private Album album;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Comentario comentario;
 
     public Reaccion(String tipoReaccionElegida, Usuario usuario, Post post) {
@@ -30,6 +33,12 @@ public class Reaccion implements Serializable {
         TipoReaccionElegida = tipoReaccionElegida;
         this.usuario = usuario;
         this.comentario = comentario;
+    }
+
+    public Reaccion(String tipoReaccionElegida, Usuario usuario, Album album) {
+        TipoReaccionElegida = tipoReaccionElegida;
+        this.usuario = usuario;
+        this.album = album;
     }
 
     public Usuario getUsuario() {

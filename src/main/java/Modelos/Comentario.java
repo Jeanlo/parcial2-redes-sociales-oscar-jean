@@ -16,6 +16,9 @@ public class Comentario implements Serializable {
     private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Imagen imagen;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Usuario usuario;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -106,6 +109,13 @@ public class Comentario implements Serializable {
         this.fecha = fecha;
     }
 
+    public Comentario(String texto, Imagen imagen, Usuario usuario, Date fecha) {
+        this.texto = texto;
+        this.imagen = imagen;
+        this.usuario = usuario;
+        this.fecha = fecha;
+    }
+
     public Post getPost() {
         return post;
     }
@@ -155,6 +165,14 @@ public class Comentario implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
     }
 }
 

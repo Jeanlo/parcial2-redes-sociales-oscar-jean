@@ -3,6 +3,7 @@ package Modelos;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class Album implements Serializable {
@@ -25,8 +26,26 @@ public class Album implements Serializable {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Imagen imagen3;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<Reaccion> reacciones;
+
     private String descripcion;
     private Date Fecha;
+
+    @Transient
+    private List<Reaccion> meGusta;
+
+    @Transient
+    private List<Reaccion> meEncanta;
+
+    @Transient
+    private List<Reaccion> meh;
+
+    @Transient
+    private List<Reaccion> meDisgusta;
+
+    @Transient
+    private List<Reaccion> meIndigna;
 
     public Album(Usuario usuario, Imagen imagen1, Imagen imagen2, Imagen imagen3, String descripcion, Date fecha) {
         this.usuario = usuario;
@@ -35,6 +54,14 @@ public class Album implements Serializable {
         this.imagen3 = imagen3;
         this.descripcion = descripcion;
         Fecha = fecha;
+    }
+
+    public List<Reaccion> getReacciones() {
+        return reacciones;
+    }
+
+    public void setReacciones(List<Reaccion> reacciones) {
+        this.reacciones = reacciones;
     }
 
     public Imagen getImagen1() {
@@ -91,5 +118,65 @@ public class Album implements Serializable {
 
     public void setFecha(Date fecha) {
         Fecha = fecha;
+    }
+
+    public List<Reaccion> getMeGusta() {
+        return meGusta;
+    }
+
+    public void setMeGusta(List<Reaccion> meGusta) {
+        this.meGusta = meGusta;
+    }
+
+    public List<Reaccion> getMeEncanta() {
+        return meEncanta;
+    }
+
+    public void setMeEncanta(List<Reaccion> meEncanta) {
+        this.meEncanta = meEncanta;
+    }
+
+    public List<Reaccion> getMeh() {
+        return meh;
+    }
+
+    public void setMeh(List<Reaccion> meh) {
+        this.meh = meh;
+    }
+
+    public List<Reaccion> getMeDisgusta() {
+        return meDisgusta;
+    }
+
+    public void setMeDisgusta(List<Reaccion> meDisgusta) {
+        this.meDisgusta = meDisgusta;
+    }
+
+    public List<Reaccion> getMeIndigna() {
+        return meIndigna;
+    }
+
+    public void setMeIndigna(List<Reaccion> meIndigna) {
+        this.meIndigna = meIndigna;
+    }
+
+    public long getCantidadMeGusta() {
+        return this.meGusta == null ? 0 : this.meGusta.size();
+    }
+
+    public long getCantidadMeEncanta() {
+        return this.meEncanta == null ? 0 : this.meEncanta.size();
+    }
+
+    public long getCantidadMeh() {
+        return this.meh == null ? 0 : this.meh.size();
+    }
+
+    public long getCantidadMeDisgusta() {
+        return this.meDisgusta == null ? 0 : this.meDisgusta.size();
+    }
+
+    public long getCantidadMeIndigna() {
+        return this.meIndigna == null ? 0 : this.meIndigna.size();
     }
 }

@@ -106,8 +106,34 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
-            List<Post> listaPost = ServicioPost.getInstancia().buscarPosts();
-            List<Album> listaAlbum = ServicioAlbum.getInstancia().buscarAlbumes();
+            List<Post> posts = ServicioPost.getInstancia().buscarPosts();
+            List<Post> listaPost = new ArrayList<>();
+            List<Album> albumes = ServicioAlbum.getInstancia().buscarAlbumes();
+            List<Album> listaAlbum = new ArrayList<>();
+
+            for (Post post : posts) {
+                for (Persona amigo : usuario.getAmigos()) {
+                    if (post.getUsuario().getUsuario().equals(amigo.getUsuario().getUsuario())) {
+                        listaPost.add(post);
+                    }
+                }
+
+                if (post.getUsuario().getUsuario().equals(usuario.getUsuario())) {
+                    listaPost.add(post);
+                }
+            }
+
+            for (Album album : albumes) {
+                for (Persona amigo : usuario.getAmigos()) {
+                    if (album.getUsuario().getUsuario().equals(amigo.getUsuario().getUsuario())) {
+                        listaAlbum.add(album);
+                    }
+                }
+
+                if (album.getUsuario().getUsuario().equals(usuario.getUsuario())) {
+                    listaAlbum.add(album);
+                }
+            }
 
             for (Post post : listaPost) {
                 post.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorPost(post.getId(), "me-gusta"));
@@ -123,6 +149,14 @@ public class Enrutamiento {
                     comentario.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-disgusta"));
                     comentario.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-indigna"));
                 }
+            }
+
+            for (Album album : listaAlbum) {
+                album.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-gusta"));
+                album.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-encanta"));
+                album.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "meh"));
+                album.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-disgusta"));
+                album.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-indigna"));
             }
 
             List<Persona> amigos = new ArrayList<>();
@@ -467,6 +501,46 @@ public class Enrutamiento {
             return stringCantidades;
         });
 
+        post("/reaccionarAlbum", (req, res) -> {
+            Long id = Long.parseLong(req.queryParams("id"));
+            String tipo = req.queryParams("tipo");
+
+            Album album = ServicioAlbum.getInstancia().encontrar(id);
+
+            Reaccion reaccion = (Reaccion) ServicioReaccion.getInstancia().encontrarReaccionUsuarioAlbum(id, usuario.getId());
+
+            if (reaccion == null) {
+                ServicioReaccion.getInstancia().crear(
+                        new Reaccion(
+                                tipo,
+                                usuario,
+                                album
+                        )
+                );
+            } else {
+                reaccion.setTipoReaccionElegida(tipo);
+                ServicioReaccion.getInstancia().editar(reaccion);
+            }
+
+
+            ServicioAlbum.getInstancia().editar(album);
+
+            int[] cantidades = new int[5];
+            cantidades[0] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-gusta"));
+            cantidades[1] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-encanta"));
+            cantidades[2] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "meh"));
+            cantidades[3] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-disgusta"));
+            cantidades[4] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-indigna"));
+
+            String stringCantidades = "";
+
+            for (int i = 0; i < 5; i++) {
+                stringCantidades += cantidades[i] + ",";
+            }
+
+            return stringCantidades;
+        });
+
         post("/reaccionarComentario", (req, res) -> {
             Long id = Long.parseLong(req.queryParams("id"));
             String tipo = req.queryParams("tipo");
@@ -661,6 +735,14 @@ public class Enrutamiento {
                 }
             }
 
+            for (Album album : listaAlbumesPropios) {
+                album.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-gusta"));
+                album.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-encanta"));
+                album.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "meh"));
+                album.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-disgusta"));
+                album.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-indigna"));
+            }
+
             List<Persona> amigos = new ArrayList<>();
 
             for (Persona per : usuario.getAmigos()) {
@@ -696,6 +778,21 @@ public class Enrutamiento {
             ServicioPost.getInstancia().editar(postAux);
 
             return com.getId() + "," + com.getFecha().toString() + "," + postAux.getComentarios().size();
+        });
+
+        post("/comentarImagen", (req, res) -> {
+            String comentario = req.queryParams("comentario");
+            Long imagen = Long.parseLong(req.queryParams("imagen"));
+
+            Imagen imagenAux = ServicioImagen.getInstancia().encontrar(imagen);
+
+            Comentario com = new Comentario(comentario, imagenAux, usuario, new Date(System.currentTimeMillis()));
+            imagenAux.getComentarios().add(com);
+
+            ServicioComentario.getInstancia().crear(com);
+            ServicioImagen.getInstancia().editar(imagenAux);
+
+            return com.getId() + "," + com.getFecha().toString() + "," + imagenAux.getComentarios().size();
         });
     }
 
