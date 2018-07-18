@@ -26,9 +26,16 @@
                         </p>
                     </div>
                 </div>
+                <#if listaPost?size gt 0>
+                    <h4 class="text-white text-center">Posts</h4>
+                </#if>
                  <#list listaPost as post>
                      <#include "post.ftl">
                  </#list>
+                <br>
+                <#if listaAlbum?size gt 0>
+                    <h4 class="text-white text-center">Albumes</h4>
+                </#if>
                  <#list listaAlbum as album>
                      <#include "album.ftl">
                  </#list>
@@ -42,4 +49,5 @@
     <script src="/js/comentar.js"></script>
     <#include "modal-notificaciones.ftl">
     <#include "modal-bacanear.ftl">
+    <#include "modal-album.ftl">
 </@base.pagina>

@@ -4,9 +4,16 @@
         <div class="row">
             <div class="col-12 p-0">
                 <br>
+                <#if listaPost?size gt 0>
+                    <h4 class="text-white text-center">Posts</h4>
+                </#if>
                 <#list listaPost as post>
                     <#include "post.ftl">
                 </#list>
+                <br>
+                <#if listaAlbum?size gt 0>
+                    <h4 class="text-white text-center">Albumes</h4>
+                </#if>
                 <#list listaAlbum as album>
                     <#include "album.ftl">
                 </#list>
