@@ -70,3 +70,8 @@ fieldset .select2 {
 .imagen {
     box-shadow: 0 3px 3px rgba(34, 34, 34, 1);
 }
+
+.alert-flotante {
+    transform: translateY(-100px);
+    box-shadow: 0 3px 3px rgba(34, 34, 34, 1);
+}

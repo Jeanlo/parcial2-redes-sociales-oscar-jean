@@ -50,6 +50,21 @@ public class ServicioUsuario extends ServicioBaseDatos<Usuario> {
         }
     }
 
+    public Object encontrarUsuarioEmocion(String username, String emocion) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery("from Usuario user where user.usuario = :user_username and user.emocion = :user_emocion");
+            query.setParameter("user_username", username);
+            query.setParameter("user_emocion", emocion);
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
     public Object encontrarUsuarioPorUsername(String username) {
         EntityManager em = getEntityManager();
 
