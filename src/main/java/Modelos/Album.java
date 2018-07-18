@@ -3,7 +3,6 @@ package Modelos;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 public class Album implements Serializable {
@@ -78,11 +77,11 @@ public class Album implements Serializable {
         this.usuario = usuario;
     }
 
-    public String getDesripcion() {
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDesripcion(String desripcion) {
+    public void setDescripcion(String desripcion) {
         this.descripcion = desripcion;
     }
 

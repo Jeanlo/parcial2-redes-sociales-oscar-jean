@@ -5,7 +5,7 @@
             <div class="col-12 p-0">
                 <br>
                 <#if usuario.amigos?size gt 0>
-                    <h5 class="text-white text-center">Amigos</h5>
+                    <h4 class="text-white text-center">Amigos</h4>
                 </#if>
                 <#list usuario.amigos as usu>
                      <div class="alert alert-secondary rounded-0 m-0 col-4 mx-auto">
@@ -20,7 +20,7 @@
                 </#list>
                 <br>
                 <#if usuariosSugeridos?size gt 1>
-                    <h5 class="text-white text-center">Agregar amigos</h5>
+                    <h4 class="text-white text-center">Agregar amigos</h4>
                 </#if>
                 <#list usuariosSugeridos as usua>
                     <#if usua.usuario.usuario != usuario.usuario>
