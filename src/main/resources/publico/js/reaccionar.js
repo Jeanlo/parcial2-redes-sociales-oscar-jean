@@ -23,6 +23,30 @@ $(document).ready(function () {
         });
     });
 
+    $(".btn-reaccion-album").unbind().on("click", function () {
+        var ruta = $("#form-reaccionar-album").attr("action");
+        var id = $(this).data("id");
+        var tipo = $(this).data("tipo");
+
+        $.ajax({
+            url: ruta,
+            type: "POST",
+            data: {
+                id: id,
+                tipo: tipo
+            },
+            success: function (datos) {
+                var cantidades = datos.split(",");
+
+                $("#badge-me-gusta-album-" + id).html(parseInt(cantidades[0]));
+                $("#badge-me-encanta-album-" + id).html(parseInt(cantidades[1]));
+                $("#badge-meh-album-" + id).html(parseInt(cantidades[2]));
+                $("#badge-me-disgusta-album-" + id).html(parseInt(cantidades[3]));
+                $("#badge-me-indigna-album-" + id).html(parseInt(cantidades[4]));
+            }
+        });
+    });
+
     $(document).unbind().on("click", ".btn-reaccion-comentario", function () {
         var ruta = $("#form-reaccionar-comentario").attr("action");
         var id = $(this).data("id");

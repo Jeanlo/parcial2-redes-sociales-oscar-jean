@@ -125,6 +125,14 @@ public class Enrutamiento {
                 }
             }
 
+            for (Album album : listaAlbum) {
+                album.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-gusta"));
+                album.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-encanta"));
+                album.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "meh"));
+                album.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-disgusta"));
+                album.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-indigna"));
+            }
+
             List<Persona> amigos = new ArrayList<>();
 
             for (Persona persona : usuario.getAmigos()) {
@@ -467,6 +475,46 @@ public class Enrutamiento {
             return stringCantidades;
         });
 
+        post("/reaccionarAlbum", (req, res) -> {
+            Long id = Long.parseLong(req.queryParams("id"));
+            String tipo = req.queryParams("tipo");
+
+            Album album = ServicioAlbum.getInstancia().encontrar(id);
+
+            Reaccion reaccion = (Reaccion) ServicioReaccion.getInstancia().encontrarReaccionUsuarioAlbum(id, usuario.getId());
+
+            if (reaccion == null) {
+                ServicioReaccion.getInstancia().crear(
+                        new Reaccion(
+                                tipo,
+                                usuario,
+                                album
+                        )
+                );
+            } else {
+                reaccion.setTipoReaccionElegida(tipo);
+                ServicioReaccion.getInstancia().editar(reaccion);
+            }
+
+
+            ServicioAlbum.getInstancia().editar(album);
+
+            int[] cantidades = new int[5];
+            cantidades[0] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-gusta"));
+            cantidades[1] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-encanta"));
+            cantidades[2] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "meh"));
+            cantidades[3] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-disgusta"));
+            cantidades[4] = (ServicioReaccion.getInstancia().conseguirCantidadReaccionAlbum(id, "me-indigna"));
+
+            String stringCantidades = "";
+
+            for (int i = 0; i < 5; i++) {
+                stringCantidades += cantidades[i] + ",";
+            }
+
+            return stringCantidades;
+        });
+
         post("/reaccionarComentario", (req, res) -> {
             Long id = Long.parseLong(req.queryParams("id"));
             String tipo = req.queryParams("tipo");
@@ -659,6 +707,14 @@ public class Enrutamiento {
                     comentario.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-disgusta"));
                     comentario.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorComentario(comentario.getId(), "me-indigna"));
                 }
+            }
+
+            for (Album album : listaAlbumesPropios) {
+                album.setMeGusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-gusta"));
+                album.setMeEncanta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-encanta"));
+                album.setMeh(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "meh"));
+                album.setMeDisgusta(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-disgusta"));
+                album.setMeIndigna(ServicioReaccion.getInstancia().encontrarReaccionPorAlbum(album.getId(), "me-indigna"));
             }
 
             List<Persona> amigos = new ArrayList<>();

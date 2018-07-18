@@ -53,8 +53,34 @@
             </#if>
         </p>
     </div>
-    <div class="card-footer">
 
+    <div class="card-footer">
+        <button class="btn btn-reaccion-album" data-tipo="me-gusta" data-id="${album.id?string['0']}">
+            <i class="far fa-thumbs-up fa-lg" style="color: rgb(55, 175, 255)" title="Me gusta"></i>
+            <span class="badge badge-secondary"
+                  id="badge-me-gusta-album-${album.id?string['0']}">${album.cantidadMeGusta}</span>
+        </button>
+        <button class="btn btn-reaccion-album" data-tipo="me-encanta" data-id="${album.id?string['0']}">
+            <i class="far fa-grin-beam fa-lg" style="color: rgb(255, 94, 180)"
+               title="Me encanta"></i>
+            <span class="badge badge-secondary"
+                  id="badge-me-encanta-album-${album.id?string['0']}">${album.cantidadMeEncanta}</span>
+        </button>
+        <button class="btn btn-reaccion-album" data-tipo="meh" data-id="${album.id?string['0']}">
+            <i class="far fa-meh fa-lg" style="color: rgb(255, 158, 41)" title="Meh"></i>
+            <span class="badge badge-secondary"
+                  id="badge-meh-album-${album.id?string['0']}">${album.cantidadMeh}</span>
+        </button>
+        <button class="btn btn-reaccion-album" data-tipo="me-disgusta" data-id="${album.id?string['0']}">
+            <i class="far fa-frown fa-lg" style="color: rgb(255, 75, 75)" title="Me disgusta"></i>
+            <span class="badge badge-secondary"
+                  id="badge-me-disgusta-album-${album.id?string['0']}">${album.cantidadMeDisgusta}</span>
+        </button>
+        <button class="btn btn-reaccion-album" data-tipo="me-indigna" data-id="${album.id?string['0']}">
+            <i class="fas fa-poo fa-lg" style="color: rgb(214, 135, 79)" title="Me indigna"></i>
+            <span class="badge badge-secondary"
+                  id="badge-me-indigna-album-${album.id?string['0']}">${album.cantidadMeIndigna}</span>
+        </button>
     </div>
     <form action="/comentar" method="POST" id="agregaComentario"></form>
 </div>

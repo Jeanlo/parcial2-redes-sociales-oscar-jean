@@ -16,7 +16,7 @@ label.error {
     width: 150px;
 }
 
-.btn-reaccion, .btn-reaccion-comentario {
+.btn-reaccion, .btn-reaccion-comentario, .btn-reaccion-album {
     background: transparent;
     padding: 0 !important;
 }
