@@ -10,6 +10,7 @@ public class Usuario implements Serializable {
     private Long id;
     private String usuario;
     private String contrasena;
+    private String emocion;
     private boolean administrator;
     private String sesion;
 
@@ -40,6 +41,24 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
         this.administrator = administrator;
         this.sesion = sesion;
+    }
+
+    public Usuario(Long id, String usuario, String contrasena, String emocion,  boolean administrator, String sesion) {
+        this.id = id;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+        this.emocion = emocion;
+        this.administrator = administrator;
+        this.sesion = sesion;
+    }
+
+
+    public String getEmocion() {
+        return emocion;
+    }
+
+    public void setEmocion(String emocion) {
+        this.emocion = emocion;
     }
 
     public Usuario() {

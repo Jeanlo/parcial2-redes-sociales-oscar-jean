@@ -221,9 +221,51 @@ public class Enrutamiento {
                         System.out.println("Sesión encriptada: " + sesionIDEncriptado);
 
                         res.cookie("/", "sesionSemanal", sesionIDEncriptado, 604800, false);
-                        ServicioUsuario.getInstancia().editar(new Usuario(usuario.getId(), usuario.getUsuario(), usuario.getContrasena(), usuario.isAdministrator(), req.session().id()));
+
+                        usuario.setSesion(req.session().id());
+                        ServicioUsuario.getInstancia().editar(usuario);
                     }
 
+                    res.redirect("/");
+                } else {
+                    res.redirect("/login");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        });
+
+        post("/login-affectiva", (req, res) -> {
+            System.out.println("LOGUEANDO CON AFFECTIVA");
+
+            String username = req.queryParams("usuario");
+            nombreUsuario = username;
+            String emocion = req.queryParams("emocion");
+            usuario = (Usuario) ServicioUsuario.getInstancia().encontrarUsuarioEmocion(username, emocion);
+
+            try {
+                if (usuario != null) {
+                    req.session(true);
+                    req.session().attribute("sesionUsuario", usuario);
+
+                    if (req.queryParams("guardarSesion") != null) {
+                        String sesionID = req.session().id();
+                        StrongTextEncryptor encriptador = new StrongTextEncryptor();
+                        encriptador.setPassword("bacano");
+                        String sesionIDEncriptado = encriptador.encrypt(sesionID);
+
+                        System.out.println("Sesión sin encriptar: " + sesionID);
+                        System.out.println("Sesión encriptada: " + sesionIDEncriptado);
+
+                        res.cookie("/", "sesionSemanal", sesionIDEncriptado, 604800, false);
+
+                        usuario.setSesion(req.session().id());
+                        ServicioUsuario.getInstancia().editar(usuario);
+                    }
+
+                    System.out.println("ENTRANDO");
                     res.redirect("/");
                 } else {
                     res.redirect("/login");
@@ -409,6 +451,7 @@ public class Enrutamiento {
             String trabajo = req.queryParams("trabajo");
             String creencia = req.queryParams("creencia");
             String sitioWeb = req.queryParams("sitio-web");
+            String emocion = req.queryParams("emocion");
 
             String sfechaNacimiento = req.queryParams("fecha-nacimiento");
             System.out.println(sfechaNacimiento);
@@ -417,7 +460,7 @@ public class Enrutamiento {
 
             long id = ServicioUsuario.getInstancia().listar().get(ServicioUsuario.getInstancia().listar().size() - 1).getId() + 1;
 
-            Usuario userNuevo = new Usuario(id, username, contrasena, false, null);
+            Usuario userNuevo = new Usuario(id, username, contrasena, emocion, false, null);
             ServicioUsuario.getInstancia().crear(userNuevo);
 
             Persona personaNueva = new Persona(userNuevo, nombre, apellido, fechaNacimiento, sexo, nacionalidad, estudio, trabajo, creencia, sitioWeb, new Date(System.currentTimeMillis()));
