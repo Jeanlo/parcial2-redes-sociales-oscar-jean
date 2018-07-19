@@ -1,17 +1,23 @@
-<div class="center-text" style="text-align:center;">
-    <input type="text" name="usuario" id="usuario-affectiva" class="form-control" placeholder="usuario">
-    <br>
-    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-        <button id="start" type="button" class="btn btn-light btn-sm" onclick="onStart()">Capturar emoción</button>
-        <button id="stop" type="button" class="btn btn-outline-light btm-sm" onclick="onStop()">Loguearse</button>
+<div class="form-row">
+    <div class="form-group col-4">
+        <input type="text" name="usuario" id="usuario-affectiva" class="form-control" placeholder="usuario">
+    </div>
+    <div class="form-group col-8">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button id="start" type="button" class="btn btn-light btn-sm" onclick="onStart()">
+                <i class="far fa-grin-wink"></i> Capturar emoción
+            </button>
+            <button id="stop" type="button" class="btn btn-outline-light btm-sm" onclick="onStop()">
+                <i class="fas fa-sign-in-alt"></i> Loguearse
+            </button>
+        </div>
     </div>
 </div>
-<br>
-<div id="affdex_elements" class="mx-auto text-center" style="width: 835px; height: 620px"></div>
-<div class="alert alert-secondary mt-0 float-right alert-flotante">
-    <div id="results"></div>
-</div>
 
+<div id="affdex_elements" style="width: 580px; height: 400px"></div>
+<div class="alert rounded m-0 float-right alert-flotante">
+    <div id="results" class="text-secondary"></div>
+</div>
 
 <form action="/login-affectiva" method="POST" id="form-loguear-affectiva"></form>
 <form action="/" method="GET" id="form-autentificar"></form>

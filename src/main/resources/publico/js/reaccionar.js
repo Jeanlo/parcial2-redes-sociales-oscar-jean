@@ -19,6 +19,8 @@ $(document).ready(function () {
                 $("#badge-meh-" + id).html(parseInt(cantidades[2]));
                 $("#badge-me-disgusta-" + id).html(parseInt(cantidades[3]));
                 $("#badge-me-indigna-" + id).html(parseInt(cantidades[4]));
+
+                notifyMe("REACCIONASTE", "¡Le has dado a " + tipo.replace("-", " ") + " a este post!");
             }
         });
     });
@@ -43,6 +45,8 @@ $(document).ready(function () {
                 $("#badge-meh-album-" + id).html(parseInt(cantidades[2]));
                 $("#badge-me-disgusta-album-" + id).html(parseInt(cantidades[3]));
                 $("#badge-me-indigna-album-" + id).html(parseInt(cantidades[4]));
+
+                notifyMe("REACCIONASTE", "¡Le has dado a " + tipo.replace("-", " ") + " a este album!");
             }
         });
     });
@@ -67,8 +71,25 @@ $(document).ready(function () {
                 $("#badge-meh-comentario-" + id).html(parseInt(cantidades[2]));
                 $("#badge-me-disgusta-comentario-" + id).html(parseInt(cantidades[3]));
                 $("#badge-me-indigna-comentario-" + id).html(parseInt(cantidades[4]));
+
+                notifyMe("REACCIONASTE", "¡Le has dado a " + tipo.replace("-", " ") + " a este comentario!");
             }
         });
     });
 });
 
+
+function notifyMe(titulo, cuerpo) {
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+    else {
+        var notification = new Notification(titulo, {
+            icon: 'img/bacano.png',
+            body: cuerpo
+        });
+
+        setTimeout(function(){
+            notification.close();
+        }, 2500);
+    }
+}

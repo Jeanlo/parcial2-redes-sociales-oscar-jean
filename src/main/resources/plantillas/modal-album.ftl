@@ -11,10 +11,13 @@
                 </button>
             </div>
             <div class="modal-body">
+                <#if flashMessage??>
+                    ${flashMessage}
+                </#if>
                 <form method="POST" action="/crear-album" id="form-album" enctype='multipart/form-data'>
                     <div class="form-group">
                         <label for="descripcion">Descripción album</label>
-                        <textarea name="descripcion" class="form-control rounded-0"></textarea>
+                        <textarea name="descripcion" class="form-control rounded-0" required></textarea>
                     </div>
                     <fieldset class="alert alert-secondary rounded-0 m-0">
                         <div class="form-group">

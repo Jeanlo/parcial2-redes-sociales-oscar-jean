@@ -1,6 +1,6 @@
 var divRoot = $("#affdex_elements")[0];
-var width = 835;
-var height = 620;
+var width = 580;
+var height = 400;
 var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
 var reporte = "";
 var positivas = 0;
@@ -97,7 +97,6 @@ detector.addEventListener("onStopSuccess", function () {
             emocion: emocion
         },
         success: function(datos) {
-            notifyMe("ACCESO AUTORIZADO", "Te has logueado con exito !");
             var rutaRedirect = $("#form-autentificar").attr("action");
             window.location.href = rutaRedirect;
         }
@@ -111,7 +110,7 @@ detector.addEventListener("onImageResultsSuccess", function (faces, image, times
         log("#results", "<h5><strong>Emocion(es) detectada(s): </strong></h5> ");
 
         if (faces[0].emotions.joy > porcentajeAMostrar) {
-            log('#results', "<strong class='alert-link'>Felicidad: </strong> " + faces[0].emotions.joy, function (key, val) {
+            log('#results', "<strong class='text-primary'>Felicidad: </strong> " + faces[0].emotions.joy, function (key, val) {
                 return val.toFixed ? Number(val.toFixed(2)) : val;
             });
 
@@ -192,7 +191,7 @@ detector.addEventListener("onImageResultsSuccess", function (faces, image, times
         }
 
         if (faces[0].emotions.surprise > porcentajeAMostrar) {
-            log('#results', "<strong class='alert-link'>Sorpresa: </strong> " + faces[0].emotions.surprise, function (key, val) {
+            log('#results', "<strong class='text-primary'>Sorpresa: </strong> " + faces[0].emotions.surprise, function (key, val) {
                 return val.toFixed ? Number(val.toFixed(0)) : val;
             });
 

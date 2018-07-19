@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
 import org.jasypt.util.text.StrongTextEncryptor;
+import spark.Request;
 import spark.Session;
 
 import javax.servlet.MultipartConfigElement;
@@ -25,6 +26,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 public class Enrutamiento {
     static Usuario usuario = null;
     static String nombreUsuario;
+    private static final String FLASH_MESSAGE_KEY = "flash_message";
 
     public static void crearRutas() {
         final Configuration configuration = new Configuration(new Version(2, 3, 23));
@@ -102,6 +104,42 @@ public class Enrutamiento {
             }
         });
 
+        before("/registrar", (req, res) -> {
+            String nombre = req.queryParams("nombre");
+            String apellido = req.queryParams("apellido");
+            String username = req.queryParams("usuario");
+            String contrasena = req.queryParams("contrasena");
+            String sexo = req.queryParams("sexo");
+            String nacionalidad = req.queryParams("nacionalidad");
+            String fechaNacimiento = req.queryParams("fecha-nacimiento");
+
+            if (nombre == null || apellido == null || username == null || contrasena == null || sexo == null || nacionalidad == null || fechaNacimiento == null) {
+                setFlashMessage(req, "Error de validación. Faltaron campos requeridos.");
+                res.redirect("/");
+                halt();
+            }
+        });
+
+        before("/crear-album", (req, res) -> {
+            String descripcion = req.queryParams("descripcion");
+
+            if (descripcion == null) {
+                setFlashMessage(req, "Error de validación. Faltaron campos requeridos.");
+                res.redirect("/");
+                halt();
+            }
+        });
+
+        before("/bacanear", (req, res) -> {
+            String texto = req.queryParams("texto");
+
+            if (texto == null) {
+                setFlashMessage(req, "Error de validación. Faltaron campos requeridos.");
+                res.redirect("/");
+                halt();
+            }
+        });
+
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
@@ -172,6 +210,7 @@ public class Enrutamiento {
             atributos.put("listaPost", listaPost);
             atributos.put("listaAlbum", listaAlbum);
             atributos.put("amigos", amigos);
+            atributos.put("flashMessage", captureFlashMessage(req));
             template.process(atributos, writer);
 
             return writer;
@@ -195,6 +234,8 @@ public class Enrutamiento {
             Template template = configuration.getTemplate("plantillas/login.ftl");
 
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("flashMessage", captureFlashMessage(req));
+
             template.process(atributos, writer);
 
             return writer;
@@ -379,20 +420,12 @@ public class Enrutamiento {
                 imagen3 = null;
             }
 
-            if (!etiquetado1.isEmpty() && !etiquetado2.isEmpty() && !etiquetado3.isEmpty()) {
-                Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
+            Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(usuario.getUsuario());
 
+            if (!etiquetado1.isEmpty()) {
                 Persona persona1 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado1);
                 imagen1.setPersonaEtiquetada(persona1);
                 ServicioImagen.getInstancia().crear(imagen1);
-
-                Persona persona2 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado2);
-                imagen2.setPersonaEtiquetada(persona2);
-                ServicioImagen.getInstancia().crear(imagen2);
-
-                Persona persona3 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado3);
-                imagen3.setPersonaEtiquetada(persona3);
-                ServicioImagen.getInstancia().crear(imagen3);
 
                 Notificacion notificacion1 = new Notificacion(
                         personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un album.",
@@ -401,12 +434,32 @@ public class Enrutamiento {
 
                 ServicioNotificacion.getInstancia().crear(notificacion1);
 
+                Usuario user1 = persona1.getUsuario();
+                user1.getNotificaciones().add(notificacion1);
+                ServicioUsuario.getInstancia().editar(user1);
+            }
+
+            if (!etiquetado2.isEmpty()) {
+                Persona persona2 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado2);
+                imagen2.setPersonaEtiquetada(persona2);
+                ServicioImagen.getInstancia().crear(imagen2);
+
                 Notificacion notificacion2 = new Notificacion(
                         personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un album.",
                         usuario, persona2.getUsuario(), new java.util.Date(System.currentTimeMillis()),
                         "Etiquetacion", false);
 
                 ServicioNotificacion.getInstancia().crear(notificacion2);
+
+                Usuario user2 = persona2.getUsuario();
+                user2.getNotificaciones().add(notificacion2);
+                ServicioUsuario.getInstancia().editar(user2);
+            }
+
+            if (!etiquetado3.isEmpty()) {
+                Persona persona3 = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(etiquetado3);
+                imagen3.setPersonaEtiquetada(persona3);
+                ServicioImagen.getInstancia().crear(imagen3);
 
                 Notificacion notificacion3 = new Notificacion(
                         personaUsuario.getNombre() + " " + personaUsuario.getApellido() + " te ha etiquetado en un album.",
@@ -415,24 +468,36 @@ public class Enrutamiento {
 
                 ServicioNotificacion.getInstancia().crear(notificacion3);
 
-                Usuario user1 = persona1.getUsuario();
-                user1.getNotificaciones().add(notificacion1);
-                ServicioUsuario.getInstancia().editar(user1);
-
-                Usuario user2 = persona2.getUsuario();
-                user2.getNotificaciones().add(notificacion2);
-                ServicioUsuario.getInstancia().editar(user2);
-
                 Usuario user3 = persona3.getUsuario();
                 user3.getNotificaciones().add(notificacion3);
                 ServicioUsuario.getInstancia().editar(user3);
-
-                Album album = new Album(usuario, imagen1, imagen2, imagen3, descripcion, tiempoAhora);
-                ServicioAlbum.getInstancia().crear(album);
-            } else {
-                Album album = new Album(usuario, imagen1, imagen2, imagen3, descripcion, tiempoAhora);
-                ServicioAlbum.getInstancia().crear(album);
             }
+
+            Album album = new Album();
+            album.setUsuario(usuario);
+            album.setDescripcion(descripcion);
+            album.setFecha(tiempoAhora);
+
+            boolean bimagen1 = imagen1 != null;
+            boolean bimagen2 = imagen2 != null;
+            boolean bimagen3 = imagen3 != null;
+
+            if (bimagen1) {
+                ServicioImagen.getInstancia().crear(imagen1);
+                album.setImagen1(imagen1);
+            }
+
+            if (bimagen2) {
+                ServicioImagen.getInstancia().crear(imagen2);
+                album.setImagen2(imagen2);
+            }
+
+            if (bimagen3) {
+                ServicioImagen.getInstancia().crear(imagen3);
+                album.setImagen3(imagen3);
+            }
+
+            ServicioAlbum.getInstancia().crear(album);
 
             res.redirect("/");
 
@@ -488,6 +553,8 @@ public class Enrutamiento {
             atributos.put("usuarios", ServicioUsuario.getInstancia().listar());
             atributos.put("usuario", usuario);
             atributos.put("amigos", amigos);
+            atributos.put("flashMessage", captureFlashMessage(req));
+
             template.process(atributos, writer);
 
             return writer;
@@ -655,6 +722,8 @@ public class Enrutamiento {
             atributos.put("usuariosSugeridos", usuariosSugeridos);
             atributos.put("usuario", usuario);
             atributos.put("amigos", amigos);
+            atributos.put("flashMessage", captureFlashMessage(req));
+
             template.process(atributos, writer);
 
             return writer;
@@ -802,6 +871,7 @@ public class Enrutamiento {
             atributos.put("listaPost", listaPostPropios);
             atributos.put("listaAlbum", listaAlbumesPropios);
             atributos.put("amigos", amigos);
+            atributos.put("flashMessage", captureFlashMessage(req));
 
             template.process(atributos, writer);
 
@@ -858,5 +928,29 @@ public class Enrutamiento {
             }
         }
         return null;
+    }
+
+    private static void setFlashMessage(Request req, String message) {
+        req.session().attribute(FLASH_MESSAGE_KEY, message);
+    }
+
+    private static String getFlashMessage(Request req) {
+        if (req.session(false) == null) {
+            return null;
+        }
+
+        if (!req.session().attributes().contains(FLASH_MESSAGE_KEY)) {
+            return null;
+        }
+
+        return (String) req.session().attribute(FLASH_MESSAGE_KEY);
+    }
+
+    private static String captureFlashMessage(Request req) {
+        String message = getFlashMessage(req);
+        if (message != null) {
+            req.session().removeAttribute(FLASH_MESSAGE_KEY);
+        }
+        return message;
     }
 }

@@ -62,6 +62,8 @@ $(document).ready(function () {
                     "</div>");
 
                 $("#badge-cantidad-comentarios-" + id).html(valores[2]);
+
+                notifyMe("COMENTASTE", "¡Has comentado a este post!");
             }
         });
     });
@@ -97,7 +99,24 @@ $(document).ready(function () {
                     "</div>");
 
                 $("#badge-cantidad-comentarios-imagen-" + id).html(valores[2]);
+
+                notifyMe("COMENTASTE", "¡Has comentado a esta imagen!");
             }
         });
     });
 });
+
+function notifyMe(titulo, cuerpo) {
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+    else {
+        var notification = new Notification(titulo, {
+            icon: 'img/bacano.png',
+            body: cuerpo
+        });
+
+        setTimeout(function(){
+            notification.close();
+        }, 2500);
+    }
+}

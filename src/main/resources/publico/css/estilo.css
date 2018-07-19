@@ -72,6 +72,7 @@ fieldset .select2 {
 }
 
 .alert-flotante {
-    transform: translateY(-100px);
+    background: rgba(244, 244, 244, 0.8);
     box-shadow: 0 3px 3px rgba(34, 34, 34, 1);
+    transform: translateX(-120px) translateY(-170px);
 }
