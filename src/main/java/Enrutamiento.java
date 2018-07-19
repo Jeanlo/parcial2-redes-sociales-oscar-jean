@@ -825,10 +825,12 @@ public class Enrutamiento {
                 if (album.getUsuario().getUsuario() == usuario.getUsuario()) {
                     listaAlbumesPropios.add(album);
                 } else {
-                    if (album.getImagen1().getPersonaEtiquetada() != null || album.getImagen2().getPersonaEtiquetada() != null || album.getImagen3().getPersonaEtiquetada() != null) {
-                        if (album.getImagen1().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario() || album.getImagen2().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario() || album.getImagen3().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario()) {
-                            listaAlbumesPropios.add(album);
-                        }
+                    if (album.getImagen1().getPersonaEtiquetada() != null && album.getImagen1().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario() ) {
+                        listaAlbumesPropios.add(album);
+                    } else if (album.getImagen2().getPersonaEtiquetada() != null && album.getImagen2().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario()) {
+                        listaAlbumesPropios.add(album);
+                    } else if (album.getImagen3().getPersonaEtiquetada() != null && album.getImagen3().getPersonaEtiquetada().getUsuario().getUsuario() == usuario.getUsuario()) {
+                        listaAlbumesPropios.add(album);
                     }
                 }
             }
