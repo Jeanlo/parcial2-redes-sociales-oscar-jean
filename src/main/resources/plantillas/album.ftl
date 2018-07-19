@@ -4,14 +4,18 @@
             <i class="fas fa-user"></i> ${album.usuario.usuario}
             &nbsp;|&nbsp;
             <i class="fas fa-calendar-alt"></i> ${album.fecha?string.iso}
-            <#if album.imagen1.personaEtiquetada?? || album.imagen2.personaEtiquetada?? || album.imagen3.personaEtiquetada??>
+            <#if album.imagen1?? && album.imagen1.personaEtiquetada??>
                 &nbsp;|&nbsp;
                 <i class="fas fa-tag"></i>
                 <strong>Foto #1: </strong>
                 ${album.imagen1.personaEtiquetada.nombre} ${album.imagen1.personaEtiquetada.apellido}
+            </#if>
+            <#if album.imagen2?? && album.imagen2.personaEtiquetada??>
                 &nbsp;|&nbsp;
                 <strong>Foto #2: </strong>
                 ${album.imagen2.personaEtiquetada.nombre} ${album.imagen2.personaEtiquetada.apellido}
+            </#if>
+            <#if album.imagen3?? && album.imagen3.personaEtiquetada??>
                 &nbsp;|&nbsp;
                 <strong>Foto #3: </strong>
                 ${album.imagen3.personaEtiquetada.nombre} ${album.imagen3.personaEtiquetada.apellido}
@@ -27,9 +31,11 @@
         <#if album.imagen1??>
             <img src="/${album.imagen1.url}" class="imagen mb-2" width="860" title="${album.imagen1.descripcion}"
                      alt="${album.imagen1.descripcion}">
-            <span class="alert alert-secondary rounded-0 m-0">
-                <strong><em>Descripción:</em></strong> ${album.imagen1.descripcion}
-            </span>
+            <#if album.imagen1.descripcion?length gt 0>
+                <span class="alert alert-secondary rounded-0 m-0">
+                    <strong><em>Descripción:</em></strong> ${album.imagen1.descripcion}
+                </span>
+            </#if>
             <button type="button" class="btn btn-sm btn-outline-light float-right btn-mostrar-comentarios-imagen"
                     data-id="${album.imagen1.id?string['0']}">
                 Comentarios <span class="badge badge-secondary"
@@ -63,9 +69,11 @@
         <#if album.imagen2??>
             <img src="/${album.imagen2.url}" class="imagen mb-2" width="860" title="${album.imagen2.descripcion}"
                  alt="${album.imagen2.descripcion}">
-            <span class="alert alert-secondary rounded-0 m-0">
-                <strong><em>Descripción:</em></strong> ${album.imagen2.descripcion}
-            </span>
+            <#if album.imagen2.descripcion?length gt 0>
+                <span class="alert alert-secondary rounded-0 m-0">
+                    <strong><em>Descripción:</em></strong> ${album.imagen2.descripcion}
+                </span>
+            </#if>
             <button type="button" class="btn btn-sm btn-outline-light float-right btn-mostrar-comentarios-imagen"
                     data-id="${album.imagen2.id?string['0']}">
                 Comentarios <span class="badge badge-secondary"
@@ -99,9 +107,11 @@
         <#if album.imagen3??>
             <img src="/${album.imagen3.url}" class="imagen mb-2" width="860" title="${album.imagen3.descripcion}"
                  alt="${album.imagen3.descripcion}">
-            <span class="alert alert-secondary rounded-0 m-0">
-                <strong><em>Descripción:</em></strong> ${album.imagen3.descripcion}
-            </span>
+            <#if album.imagen3.descripcion?length gt 0>
+                <span class="alert alert-secondary rounded-0 m-0">
+                    <strong><em>Descripción:</em></strong> ${album.imagen3.descripcion}
+                </span>
+            </#if>
             <button type="button" class="btn btn-sm btn-outline-light float-right btn-mostrar-comentarios-imagen"
                     data-id="${album.imagen3.id?string['0']}">
                 Comentarios <span class="badge badge-secondary"

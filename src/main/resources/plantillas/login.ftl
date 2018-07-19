@@ -3,17 +3,23 @@
     <div class="col p-0">
         <div class="row">
             <div class="col-12 p-0 mt-3">
-                <div class="row">
+                <div class="row m-0">
                     <div class="card bg-secondary text-white rounded-0 col-6 p-0">
+                        <h5 class="card-header text-center">
+                            <i class="fas fa-video"></i> Loguearse con emoción
+                        </h5>
                         <div class="card-body">
                         <#include "affectiva.ftl">
                         </div>
                     </div>
                     <div class="card bg-dark text-white rounded-0 col-6 p-0">
                         <h5 class="card-header text-center">
-                            Registrarse
+                            <i class="fas fa-id-card"></i> Registrarse
                         </h5>
                         <div class="card-body">
+                            <#if flashMessage??>
+                                ${flashMessage}
+                            </#if>
                             <form action="/registrar" method="POST" id="form-registrar">
                                 <div class="form-row">
                                     <div class="form-group col-6">
@@ -180,11 +186,11 @@
                                                 </div>
                                             </div>
                                             <select name="emocion" class="form-control custom-select">
-                                                <option value="😃">😃</option>
-                                                <option value="😱">😱</option>
-                                                <option value="😐">😐</option>
-                                                <option value="😡">😡</option>
-                                                <option value="😳">😳</option>
+                                                <option value="😃">😃 Felicidad</option>
+                                                <option value="😳">😳 Sorpresa</option>
+                                                <option value="😐">😐 Neutral</option>
+                                                <option value="😱">😱 Miedo</option>
+                                                <option value="😡">😡 Enfado</option>
                                             </select>
                                         </div>
                                     </div>
