@@ -121,6 +121,7 @@ public class Enrutamiento {
         });
 
         before("/crear-album", (req, res) -> {
+            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
             String descripcion = req.queryParams("descripcion");
 
             if (descripcion == null) {
@@ -131,6 +132,7 @@ public class Enrutamiento {
         });
 
         before("/bacanear", (req, res) -> {
+            req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
             String texto = req.queryParams("texto");
 
             if (texto == null) {
