@@ -36,7 +36,7 @@ Todavía no realizado
 ## Modelo de datos
 Para esta aplicación es requerido utilizar una colección estática de diferentes objetos, para lo cual es necesaria la construcción de las diferentes clases que formarán parte del modelo de datos, y aquí se muestra su estructura:
 
-Aquí poner el modelo de datos.
+![Diagrama de clases](https://i.imgur.com/oZFmIzY.png)
 
 ## Tareas requeridas
 
@@ -60,4 +60,4 @@ Aquí poner el modelo de datos.
 - Capacidad para reaccionar en un post.
 - Capacidad para agregar amigos.
 - Capacidad para sugerir amigos.
-- Se debe validar los formularios (tanto en HTML como en JavaScript y JavaScript) por si se deja vacío un campo o algo de esa naturaleza.
+- Se debe validar los formularios (tanto en HTML como en JavaScript y Java) por si se deja vacío un campo o algo de esa naturaleza.
