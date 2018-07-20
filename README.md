@@ -16,7 +16,7 @@ Crear una aplicación web utilizando SparkJava, basándose en los conceptos de u
 
 ## Vídeo de demostración del proyecto
 
-https://youtu.be/ArZlbMmrpwo
+https://youtu.be/nk95VcYKOSE (2da versión)
 
 ## Tecnologías requeridas
 
