@@ -1,11 +1,17 @@
+import RESTySoap.*;
 import Modelos.*;
 import Servicios.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.jasypt.util.text.StrongTextEncryptor;
 import spark.Request;
+import spark.ResponseTransformer;
 import spark.Session;
+import spark.Spark;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
@@ -39,7 +45,7 @@ public class Enrutamiento {
         staticFiles.location("/publico");
 
         enableDebugScreen();
-
+        
         before("/", (req, res) -> {
             if (req.cookie("sesionSemanal") != null) {
                 Usuario usuarioRestaurado = restaurarSesion(req.cookie("sesionSemanal"));
@@ -140,6 +146,17 @@ public class Enrutamiento {
                 res.redirect("/");
                 halt();
             }
+        });
+
+        path("/rest", () -> {
+            afterAfter("/*", (request, response) -> {
+                response.header("Content-Type", "application/json");
+            });
+
+            get("/listadoPost/:usuario", (req, res) -> {
+                String usuario = req.params("usuario");
+                return ServicioPost.getInstancia().listarPorUsuario(usuario);
+            }, JSON.json());
         });
 
         get("/", (req, res) -> {
