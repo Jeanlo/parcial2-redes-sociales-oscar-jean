@@ -1,6 +1,7 @@
 import Modelos.*;
 import Servicios.*;
 import Utilidades.JSON;
+import com.google.gson.Gson;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -151,6 +152,16 @@ public class Enrutamiento {
             get("/listadoPost/:usuario", (req, res) -> {
                 String usuario = req.params("usuario");
                 return ServicioPost.getInstancia().listarPorUsuarioREST(usuario);
+            }, JSON.json());
+
+            post("/bacanear", "application/json", (req, res) -> {
+                Post post = new Gson().fromJson(req.body(), Post.class);
+
+//                Post post = new Post(texto, null, null, null, null, null, null);
+//                ServicioPost.getInstancia().crear(post);
+
+                ServicioPost.getInstancia().crear(post);
+                return post;
             }, JSON.json());
         });
 

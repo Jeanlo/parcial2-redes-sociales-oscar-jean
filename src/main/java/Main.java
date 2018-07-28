@@ -7,6 +7,8 @@ import Servicios.ServicioUsuario;
 
 import java.sql.Date;
 
+import static spark.Spark.port;
+
 /*********************************************************
  *  Parcial #2 - Redes sociales                           *
  *  Realizada por:                                        *
@@ -17,6 +19,8 @@ import java.sql.Date;
 
 public class Main {
     public static void main(String[] args) {
+        port(getHerokuAssignedPort());
+
         // Iniciando el servicio de Base de datos por medio de Hibernate y H2.
         try {
             ServicioBootstrapSOAP.iniciarSOAP();
@@ -33,7 +37,14 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
 
+        return 4567;
     }
 }
