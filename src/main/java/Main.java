@@ -1,6 +1,7 @@
 import Modelos.Persona;
 import Modelos.Usuario;
 import Servicios.ServicioBootstrap;
+import Servicios.ServicioBootstrapSOAP;
 import Servicios.ServicioPersona;
 import Servicios.ServicioUsuario;
 
@@ -18,7 +19,9 @@ public class Main {
     public static void main(String[] args) {
         // Iniciando el servicio de Base de datos por medio de Hibernate y H2.
         try {
+            ServicioBootstrapSOAP.iniciarSOAP();
             ServicioBootstrap.iniciarBaseDatos();
+
             // Insertando el usuario por defecto (administrador).
             if (ServicioUsuario.getInstancia().encontrar(new Long(1)) == null) {
                 Usuario usuarioAdmin = new Usuario(new Long(1), "admin", "1234", "\uD83D\uDE03", true, null);
