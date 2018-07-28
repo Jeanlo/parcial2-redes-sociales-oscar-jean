@@ -20,10 +20,5 @@ dependencies {
     compile 'com.sun.jersey:jersey-client:1.19.4'
     compile 'com.google.code.gson:gson:2.8.1'
     compile group: 'org.eclipse.jetty', name: 'jetty-http-spi', version: '9.4.4.v20170414'
-    compile "com.heroku.adk:heroku-jdbc:0.1.1"
-    compile group: 'com.heroku.sdk', name: 'heroku-jdbc', version: '0.1.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-
-defaultTasks = ['clean']
-task stage (dependsOn:['clean','installApp'])
