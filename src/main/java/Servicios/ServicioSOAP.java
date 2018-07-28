@@ -12,9 +12,4 @@ public class ServicioSOAP {
 
         return posts;
     }
-
-    @WebMethod
-    public String holaMundo() {
-        return "hola";
-    }
 }
