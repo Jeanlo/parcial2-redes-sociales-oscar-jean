@@ -1,5 +1,7 @@
 package Servicios;
 
+import Modelos.Imagen;
+import Modelos.Persona;
 import Modelos.Post;
 
 import javax.jws.WebMethod;
@@ -17,9 +19,15 @@ public class ServicioSOAP {
     }
 
     @WebMethod
-    public String crearPost(String texto) {
-        Post post = new Post(texto, null, null, null, null, null, new Date(System.currentTimeMillis()));
+    public String crearPost(String texto, String nombreUsuario, String urlImagen) {
+        Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
+        Imagen imagen = new Imagen(urlImagen, texto, null, null);
+        ServicioImagen.getInstancia().crear(imagen);
+
+        Post post = new Post(texto, imagen, personaUsuario.getUsuario(), null, null, null,  new Date(System.currentTimeMillis()));
+
         ServicioPost.getInstancia().crear(post);
-        return post.getTexto() + " " + post.getFecha();
+
+        return post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha();
     }
 }
