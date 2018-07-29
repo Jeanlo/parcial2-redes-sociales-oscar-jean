@@ -31,6 +31,8 @@ public class Enrutamiento {
     private static final String FLASH_MESSAGE_KEY = "flash_message";
 
     public static void crearRutas() {
+        port(getHerokuAssignedPort());
+
         final Configuration configuration = new Configuration(new Version(2, 3, 23));
         configuration.setClassForTemplateLoading(Main.class, "/");
 
@@ -987,5 +989,13 @@ public class Enrutamiento {
             req.session().removeAttribute(FLASH_MESSAGE_KEY);
         }
         return message;
+    }
+
+    private static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567;
     }
 }
