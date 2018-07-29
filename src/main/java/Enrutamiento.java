@@ -154,14 +154,22 @@ public class Enrutamiento {
                 return ServicioPost.getInstancia().listarPorUsuarioREST(usuario);
             }, JSON.json());
 
-            post("/bacanear", "application/json", (req, res) -> {
-                Post post = new Gson().fromJson(req.body(), Post.class);
+            post("/bacanear", (req, res) -> {
+                req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 
-//                Post post = new Post(texto, null, null, null, null, null, null);
-//                ServicioPost.getInstancia().crear(post);
+                String nombreUsuario = req.queryParams("usuario");
+                String texto = req.queryParams("texto");
+                String urlImagen = req.queryParams("imagen");
+
+                Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
+                Imagen imagen = new Imagen(urlImagen, texto, null, null);
+                ServicioImagen.getInstancia().crear(imagen);
+
+                Post post = new Post(texto, imagen, personaUsuario.getUsuario(), null, null, null,  new Date(System.currentTimeMillis()));
 
                 ServicioPost.getInstancia().crear(post);
-                return post;
+
+                return post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha();
             }, JSON.json());
         });
 
