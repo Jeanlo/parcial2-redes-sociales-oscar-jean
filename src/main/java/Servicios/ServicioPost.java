@@ -31,7 +31,7 @@ public class ServicioPost extends ServicioBaseDatos<Post> {
 
     public List<String> listarPorUsuarioREST(String usuario) {
         EntityManager em = ServicioPost.getInstancia().getEntityManager();
-        Query query = em.createQuery("select usuario.usuario, texto from Post a where a.usuario.usuario = :usuario order by a.id desc");
+        Query query = em.createQuery("select texto from Post a where a.usuario.usuario = :usuario order by a.id desc");
         query.setParameter("usuario", usuario);
         List<String> lista = query.getResultList();
 
