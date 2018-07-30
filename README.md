@@ -16,7 +16,7 @@ Crear una aplicación web utilizando SparkJava, basándose en los conceptos de u
 
 ## Vídeo de demostración del proyecto
 
-Todavía no realizado
+https://youtu.be/nk95VcYKOSE (2da versión)
 
 ## Tecnologías requeridas
 
@@ -36,8 +36,28 @@ Todavía no realizado
 ## Modelo de datos
 Para esta aplicación es requerido utilizar una colección estática de diferentes objetos, para lo cual es necesaria la construcción de las diferentes clases que formarán parte del modelo de datos, y aquí se muestra su estructura:
 
-Aquí poner el modelo de datos.
+![Diagrama de clases](https://i.imgur.com/oZFmIzY.png)
 
 ## Tareas requeridas
 
-Todavía no hecho.
+- Hacer el diagrama de clases.
+- Hacer el modelo de datos
+- Configurar la base de datos
+- Crear usuario administrador
+- Poder registrar usuarios
+- Poder subir privilegios de usuario
+- Formulario para registrar usuarios
+- Muro de usuario
+- Capacidad para postear texto
+- Capacidad para etiquetar usuarios en un post.
+- Capacidad de notificarle al usuario con por una etiquetación.
+- Capacidad de poner albumes de imágenes.
+- Capacidad de registrar una imagen en un album.
+- Notificarle al usuario la etiquetación de una imagen
+- Capacidad para comentar una imagen en un album.
+- Que cada usuario tenga un timeline con todo lo que han hecho sus amigos.
+- Capacidad para comentar en un post.
+- Capacidad para reaccionar en un post.
+- Capacidad para agregar amigos.
+- Capacidad para sugerir amigos.
+- Se debe validar los formularios (tanto en HTML como en JavaScript y Java) por si se deja vacío un campo o algo de esa naturaleza.
