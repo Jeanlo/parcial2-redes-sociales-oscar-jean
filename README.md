@@ -1,8 +1,8 @@
-# Parcial #2 - Red social
+# Proyecto final - Redes sociales (continuación del Parcial #2)
 
 ![PUCMMM-logo](https://i.imgur.com/9eEIci9.png)
 
-Parcial #2 realizado para la asignatura **Programación Web (ISC-415)** perteneciente a la carrera **Ingeniería de Sistemas y Computación** de la **Pontificia Universidad Católica Madre y Maestra (PUCMM)** en el ciclo **Mayo-Agosto 2018**.
+Proyecto final realizado para la asignatura **Programación Web (ISC-415)** perteneciente a la carrera **Ingeniería de Sistemas y Computación** de la **Pontificia Universidad Católica Madre y Maestra (PUCMM)** en el ciclo **Mayo-Agosto 2018**.
 
 ## Realizado por
 
@@ -12,11 +12,15 @@ Parcial #2 realizado para la asignatura **Programación Web (ISC-415)** pertenec
 
 ## Objetivo general
 
-Crear una aplicación web utilizando SparkJava, basándose en los conceptos de una red social, que utilice persistencia en la base de datos gracias a Hibernate (ORM - JPA) y permita ejecutar las tareas especificadas en la sección [Tareas requeridas](#tareas-requeridas).
+Crear una aplicación web utilizando SparkJava, basándose en los conceptos de una red social, que utilice persistencia en la base de datos gracias a Hibernate (ORM - JPA), la cual permitirá interacción con otros lenguajes como JavaScript y JQuery y será hosteada en un servidor en la nube y permita ejecutar las tareas especificadas en la sección [Tareas requeridas](#tareas-requeridas).
 
 ## Vídeo de demostración del proyecto
 
+**2do parcial:**
 https://youtu.be/nk95VcYKOSE (2da versión)
+
+**Proyecto final**
+Todavía no realizado.
 
 ## Tecnologías requeridas
 
@@ -27,6 +31,7 @@ https://youtu.be/nk95VcYKOSE (2da versión)
 - SparkJava
 - ORM
 - JavaScript
+- Servidor donde se publicará
 
 ## Otras tecnologías utilizadas
 
@@ -61,3 +66,9 @@ Para esta aplicación es requerido utilizar una colección estática de diferent
 - Capacidad para agregar amigos.
 - Capacidad para sugerir amigos.
 - Se debe validar los formularios (tanto en HTML como en JavaScript y Java) por si se deja vacío un campo o algo de esa naturaleza.
+- Crear un servicio REST y SOAP que permita:
+  - Listar las publicaciones de un usuario X.
+  - Crear una publicación con una imagen.
+- A partir de esos servicios REST y SOAP hacer clientes que interactuen con este.
+- Añadir alguna funcionalidad avanzada de HTML5
+- Publicar el sistema en la nube asignando a este un SSL.
