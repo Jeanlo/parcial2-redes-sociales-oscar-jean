@@ -2,12 +2,15 @@ group 'ce.pucmm.edu'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
+
+mainClassName="Main"
 
 dependencies {
     compile 'com.sparkjava:spark-core:2.7.2'

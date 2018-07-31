@@ -1,7 +1,5 @@
 package Modelos;
 
-import com.sun.istack.internal.Nullable;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +13,6 @@ public class Imagen implements Serializable {
     private String descripcion;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @Nullable
     private Persona personaEtiquetada;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
