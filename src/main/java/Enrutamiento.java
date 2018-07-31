@@ -1,7 +1,6 @@
 import Modelos.*;
 import Servicios.*;
 import Utilidades.JSON;
-import com.google.gson.Gson;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -162,10 +161,15 @@ public class Enrutamiento {
                 String urlImagen = req.queryParams("imagen");
 
                 Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
-                Imagen imagen = new Imagen(urlImagen, texto, null, null);
-                ServicioImagen.getInstancia().crear(imagen);
 
-                Post post = new Post(texto, imagen, personaUsuario.getUsuario(), null, null, null,  new Date(System.currentTimeMillis()));
+                Imagen imagen = null;
+
+                if (urlImagen != null) {
+                    imagen = new Imagen(urlImagen, texto, null, null);
+                    ServicioImagen.getInstancia().crear(imagen);
+                }
+
+                Post post = new Post(texto, imagen, personaUsuario.getUsuario(), null, null, null, new Date(System.currentTimeMillis()));
 
                 ServicioPost.getInstancia().crear(post);
 
