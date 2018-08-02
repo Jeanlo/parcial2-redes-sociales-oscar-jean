@@ -150,7 +150,28 @@ public class Enrutamiento {
 
             get("/listadoPost/:usuario", (req, res) -> {
                 String usuario = req.params("usuario");
-                return ServicioPost.getInstancia().listarPorUsuarioREST(usuario);
+                Usuario usuarioExiste = (Usuario)ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(usuario);
+
+                if (usuarioExiste != null) {
+                    List<Post> posts = ServicioPost.getInstancia().listarPorUsuario(usuario);
+                    List<String> salidas = new ArrayList<>();
+
+                    for (Post post : posts) {
+                        if (post.getPersonaEtiquetada() != null && post.getImagen() != null) {
+                            salidas.add(post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + post.getPersonaEtiquetada().getNombre() + " " + post.getPersonaEtiquetada().getApellido() + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
+                        } else if (post.getPersonaEtiquetada() != null && post.getImagen() == null) {
+                            salidas.add(post.getTexto() + "," + " " + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + post.getPersonaEtiquetada().getNombre() + " " + post.getPersonaEtiquetada().getApellido() + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
+                        } else if (post.getImagen() != null && post.getPersonaEtiquetada() == null) {
+                            salidas.add(post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + " " + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
+                        } else {
+                            salidas.add(post.getTexto() + "," + " " + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + " " + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
+                        }
+                    }
+
+                    return salidas;
+                } else {
+                    return "";
+                }
             }, JSON.json());
 
             post("/bacanear", (req, res) -> {
@@ -167,7 +188,7 @@ public class Enrutamiento {
                     Imagen imagen = null;
 
                     if (urlImagen != null) {
-                        imagen = new Imagen(urlImagen, texto, null, null);
+                        imagen = new Imagen(urlImagen, texto, null, null, "cliente");
                         ServicioImagen.getInstancia().crear(imagen);
                     }
 
@@ -376,7 +397,7 @@ public class Enrutamiento {
             }
 
             if (!req.raw().getPart("imagen").getSubmittedFileName().isEmpty()) {
-                imagen = new Imagen(tempFile.getFileName().toString(), texto, null, null);
+                imagen = new Imagen(tempFile.getFileName().toString(), texto, null, null, "servidor");
                 ServicioImagen.getInstancia().crear(imagen);
             } else {
                 imagen = null;
