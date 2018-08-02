@@ -29,20 +29,11 @@ public class ServicioPost extends ServicioBaseDatos<Post> {
         return lista;
     }
 
-    public List<String> listarPorUsuarioREST(String usuario) {
+    public List<Post> listarPorUsuario(String usuario) {
         EntityManager em = ServicioPost.getInstancia().getEntityManager();
-        Query query = em.createQuery("select texto from Post a where a.usuario.usuario = :usuario order by a.id desc");
+        Query query = em.createQuery("from Post a where a.usuario.usuario = :usuario order by a.id desc");
         query.setParameter("usuario", usuario);
-        List<String> lista = query.getResultList();
-
-        return lista;
-    }
-
-    public List<String> listarPorUsuarioSOAP(String usuario) {
-        EntityManager em = ServicioPost.getInstancia().getEntityManager();
-        Query query = em.createQuery("select texto from Post a where a.usuario.usuario = :usuario order by a.id desc");
-        query.setParameter("usuario", usuario);
-        List<String> lista = query.getResultList();
+        List<Post> lista = query.getResultList();
 
         return lista;
     }

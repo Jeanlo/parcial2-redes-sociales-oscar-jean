@@ -14,7 +14,12 @@
     <div class="card-body">
         <p class="card-text">
         <#if post.imagen??>
-            <img src="/${post.imagen.url}" class="imagen mb-2" width="635" title="${post.imagen.descripcion}" alt="${post.imagen.descripcion}">
+            <#if post.imagen.creado == "servidor">
+                <img src="/${post.imagen.url}" class="imagen mb-2" width="635" title="${post.imagen.descripcion}" alt="${post.imagen.descripcion}">
+            </#if>
+            <#if post.imagen.creado == "cliente">
+                <img src="https://bacano-cliente-mvn.herokuapp.com/${post.imagen.url}" class="imagen mb-2" width="635" title="${post.imagen.descripcion}" alt="${post.imagen.descripcion}">
+            </#if>
         <br>
         </#if>
         ${post.texto}
