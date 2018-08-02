@@ -160,11 +160,11 @@ public class Enrutamiento {
                         if (post.getPersonaEtiquetada() != null && post.getImagen() != null) {
                             salidas.add(post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + post.getPersonaEtiquetada().getNombre() + " " + post.getPersonaEtiquetada().getApellido() + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
                         } else if (post.getPersonaEtiquetada() != null && post.getImagen() == null) {
-                            salidas.add(post.getTexto() + "," + " " + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + post.getPersonaEtiquetada().getNombre() + " " + post.getPersonaEtiquetada().getApellido() + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
+                            salidas.add(post.getTexto() + "," + " " + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + post.getPersonaEtiquetada().getNombre() + " " + post.getPersonaEtiquetada().getApellido() + "," + post.getComentarios().size() + "," + " ");
                         } else if (post.getImagen() != null && post.getPersonaEtiquetada() == null) {
                             salidas.add(post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + " " + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
                         } else {
-                            salidas.add(post.getTexto() + "," + " " + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + " " + "," + post.getComentarios().size() + "," + post.getImagen().getCreado());
+                            salidas.add(post.getTexto() + "," + " " + "," + post.getUsuario().getUsuario() + "," + post.getFecha() + "," + " " + "," + post.getComentarios().size() + "," + " ");
                         }
                     }
 
