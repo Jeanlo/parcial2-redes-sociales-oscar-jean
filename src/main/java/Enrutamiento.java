@@ -160,20 +160,25 @@ public class Enrutamiento {
                 String texto = req.queryParams("texto");
                 String urlImagen = req.queryParams("imagen");
 
-                Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
+                Usuario usuarioExiste = (Usuario)ServicioUsuario.getInstancia().encontrarUsuarioPorUsername(nombreUsuario);
 
-                Imagen imagen = null;
+                if (usuarioExiste != null) {
+                    Persona personaUsuario = (Persona) ServicioUsuario.getInstancia().encontrarPersonaUsuario(nombreUsuario);
+                    Imagen imagen = null;
 
-                if (urlImagen != null) {
-                    imagen = new Imagen(urlImagen, texto, null, null);
-                    ServicioImagen.getInstancia().crear(imagen);
+                    if (urlImagen != null) {
+                        imagen = new Imagen(urlImagen, texto, null, null);
+                        ServicioImagen.getInstancia().crear(imagen);
+                    }
+
+                    Post post = new Post(texto, imagen, personaUsuario.getUsuario(), null, null, null, new Date(System.currentTimeMillis()));
+
+                    ServicioPost.getInstancia().crear(post);
+
+                    return post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha();
+                } else {
+                    return "";
                 }
-
-                Post post = new Post(texto, imagen, personaUsuario.getUsuario(), null, null, null, new Date(System.currentTimeMillis()));
-
-                ServicioPost.getInstancia().crear(post);
-
-                return post.getTexto() + "," + post.getImagen().getUrl() + "," + post.getUsuario().getUsuario() + "," + post.getFecha();
             }, JSON.json());
         });
 
