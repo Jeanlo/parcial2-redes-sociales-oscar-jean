@@ -14,12 +14,11 @@ Proyecto final realizado para la asignatura **Programación Web (ISC-415)** pert
 
 Crear una aplicación web utilizando SparkJava, basándose en los conceptos de una red social, que utilice persistencia en la base de datos gracias a Hibernate (ORM - JPA), la cual permitirá interacción con otros lenguajes como JavaScript y JQuery y será hosteada en un servidor en la nube y permita ejecutar las tareas especificadas en la sección [Tareas requeridas](#tareas-requeridas).
 
-## Vídeo de demostración del proyecto
+## Vídeo de demostración del proyecto (2do parcial)
 
-**2do parcial:**
 https://youtu.be/nk95VcYKOSE (2da versión)
 
-**Proyecto final**
+## Vídeo (proyecto final con clientes, publicación y HTML5)
 Todavía no realizado.
 
 ## Tecnologías requeridas
